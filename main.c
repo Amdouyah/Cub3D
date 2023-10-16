@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/13 19:58:16 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:50:09 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,24 +108,35 @@ void minimap(t_cub *cb)
 				draw_squar(cb->img, i * 50 , j *50, rgb(0,0,0,255));
 			else if (cb->map[i][j] == 'N')
 			{
-				if (cb->x_p == -1 && cb->y_p == -1){
+				if (cb->x_p == -1 && cb->y_p == -1)
+				{
 					cb->x_p = j * 50 + 25;
-					cb->y_p = i * 50 + 25;
-					
+					cb->y_p = i * 50 + 25;	
 				}
 				draw_squar(cb->img, i * 50, j * 50, rgb(0,0,0,255));
 			}
 		}
 	}
 	drawplayer(cb, cb->x_p, cb->y_p);
-	cb->teta = cb->view_p - rad(FOV / 2) + cb->angle;
-	for (int i = 0; i < WIDTH;i++){
-		
-		float yf = sin(cb->teta) * 50;
-		float xf = cos(cb->teta) * 50;
+	i = 0;
+	float yf, xf;
+	float inc = rad(FOV) / WIDTH;
+	cb->teta = cb->view_p - rad(FOV / 2);
+	while (i < WIDTH)
+	{
+		yf = sin(cb->teta) * 50;
+		xf = cos(cb->teta) * 50;
 		dda(cb->x_p, cb->y_p, xf + cb->x_p, yf + cb->y_p, cb);
-		cb->teta += rad(FOV) / WIDTH;
+		cb->teta += inc;
+		i++;
 	}
+	
+	// cb->teta = cb->view_p - rad(FOV / 2) + cb->angle;
+	// printf("%f-------%f\n", cb->teta, rad(0));
+	// for (int i = 0; i < WIDTH;i++)
+	// {	
+	// 	cb->teta += rad(FOV) / WIDTH;
+	// }
 	// dda(cb->x_p, cb->y_p, xf + cb->x_p + 15, yf + cb->y_p, cb);
 	// dda(cb->x_p, cb->y_p, xf + cb->x_p + 30, yf + cb->y_p, cb);
 	// dda(cb->x_p, cb->y_p, xf + cb->x_p + 45, yf + cb->y_p, cb);
@@ -142,60 +153,49 @@ void	ft_hook(void *p)
 		mlx_close_window(cb->mlx);
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_W))
 	{
-		if(cb->map[(cb->ytmp - 2) / 50][cb->xtmp / 50] != '1')
-		{
-			// cb->ytmp -= 2;
-			// cb->x_p	= cb->xtmp;
-			cb->x_p -= cos(cb->teta) * 2;
-			// cb->y_p	= cb->ytmp;
-			cb->y_p += sin(cb->teta) * 2;
-		}
+			cb->xtmp += cos(cb->view_p) * SPEED;
+			cb->ytmp += sin(cb->view_p) * SPEED;
 	}
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_A))
 	{
-		if(cb->map[cb->ytmp/50][(cb->xtmp - 2 )/50] != '1')
-		{
-			cb->xtmp -= 2;
-			cb->x_p	= cb->xtmp;
-			cb->y_p	= cb->ytmp;
-		}
+			cb->xtmp -= cos(cb->view_p + rad(90)) * SPEED;
+			cb->ytmp -= sin(cb->view_p + rad(90)) * SPEED;
 	}
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_S))
-	{
-		if(cb->map[(cb->ytmp + 2)/50][cb->xtmp/50] != '1')
-		{	
-			cb->ytmp += 2;
-			cb->x_p	= cb->xtmp;
-			cb->y_p	= cb->ytmp;
-		}
+	{	
+			cb->xtmp -= cos(cb->view_p) * SPEED;
+			cb->ytmp -= sin(cb->view_p) * SPEED;
 	}
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_D))
 	{
-		if(cb->map[cb->ytmp/50][(cb->xtmp + 2)/50] != '1')
-		{
-			cb->xtmp += 2;
-			cb->x_p	= cb->xtmp;
-			cb->y_p	= cb->ytmp;
-		}
-	
+			cb->xtmp += cos(cb->view_p + rad(90)) * SPEED;
+			cb->ytmp += sin(cb->view_p + rad(90)) * SPEED;
 	}
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
 	{
-		cb->angle -= 0.05;
-		if (cb->teta >= 0)
-			cb->teta = 360*M_PI/180;
-		else if (cb->teta < 360*M_PI/180)
-			cb->teta = 0;
+		cb->view_p -= 0.05;
+		if (cb->view_p >= 0)
+			cb->view_p -= 2*M_PI;
+		else if (cb->view_p < 2*M_PI)
+			cb->view_p += 2*M_PI;
 	}
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
 	{
-		cb->angle += 0.05;
-		if (cb->teta >= 0)
-			cb->teta = 360*M_PI/180;
-		else if (cb->teta < 360*M_PI/180)
-			cb->teta = 0;
+		cb->view_p += 0.05;
+		if (cb->view_p >= 0)
+			cb->view_p -= 2*M_PI;
+		else if (cb->view_p < 2*M_PI)
+			cb->view_p += 2*M_PI;
 	}
-	minimap(cb);
+	if ((cb->map[(int)(cb->ytmp + (SPEED / 2)) / 50][(int)cb->xtmp / 50] != '1'
+		|| cb->map[(int)(cb->ytmp - (SPEED /2))/50][(int)cb->xtmp/50] != '1'
+		|| cb->map[(int)cb->ytmp/50][(int)(cb->xtmp - (SPEED / 2) ) / 50] != '1'
+		|| cb->map[(int)cb->ytmp/50][(int)(cb->xtmp + (SPEED / 2))/50] != '1'))
+		{
+			cb->x_p = cb->xtmp;
+			cb->y_p = cb->ytmp;
+			minimap(cb);
+		}		
 }
 /*
 yp & xp 
@@ -222,16 +222,16 @@ int main()
 	cb->map[7] = NULL;
 	// int color;
 	// mlx_is_key_down(mlx, MLX_KEY_W);
-	cb->view_p = 3 * M_PI /2;
 	
 	cb->x_p = -1;
 	cb->y_p = -1;
-	cb->angle = 0;
+	// cb->angle = 0;
 	cb->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 0);
 	cb->img = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
-	mlx_image_to_window(cb->mlx, cb->img, 0, 0); 
-	// cb->teta = cb->view_p - rad(FOV / 2);
+	cb->view_p = 3 * (M_PI / 2);
+	cb->teta = cb->view_p - rad(FOV / 2);
 	minimap(cb);
+	mlx_image_to_window(cb->mlx, cb->img, 0, 0); 
 	mlx_loop_hook(cb->mlx, ft_hook, cb);
 	mlx_loop(cb->mlx);
 	 

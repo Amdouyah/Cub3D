@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/13 11:58:31 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:20:00 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@
 #define FOV 60
 #define HEIGHT 900
 #define WIDTH 1024
+#define SPEED 3
 typedef struct s_cub{
 	mlx_t* mlx;
 	mlx_image_t* img;
-	int x_p;
-	int y_p;
+	float x_p;
+	float y_p;
 	char **map;
-	int xtmp;
-	int ytmp;
+	float xtmp;
+	float ytmp;
 	float view_p;
 	float teta;
 	float	angle;
