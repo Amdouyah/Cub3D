@@ -6,11 +6,42 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/16 15:50:09 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/21 14:42:23 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int check_wall(t_cub *cb ,float x, float y)
+{
+  // Check if the x and y coordinates are within the bounds of the map.
+  if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+    return (1);
+
+  // Get the content of the map cell at the given coordinates.
+  int index_x = (int)floor(x / TILE_SIZE);
+  int index_y = (int)floor(y / TILE_SIZE);
+  if (index_x > 18)
+    return (1);
+  if (index_y >= 7)
+    return (1);
+  char mapContent = cb->map[index_y][index_x];
+  if (mapContent == '1')
+	return (1);
+
+  return (0);
+}
+
+// int check_wall(t_cub *cb, float x, float y)
+// {
+//   // Check if the x and y coordinates are within the bounds of the map.
+// 	if ((int)y / TILE_SIZE < 7 
+// 		&& (int)x / TILE_SIZE < 18
+// 		&& cb->map[(int) y / TILE_SIZE][(int) x / TILE_SIZE] == '1')
+// 		return (1);
+// 	return (0);
+// }
+
 double rad(float degree)
 {
 	return (degree * M_PI / 180);
@@ -36,11 +67,11 @@ void	draw_squar(mlx_image_t *img, int y, int x, unsigned int color)
 	int	i;
 	int j;
 
-	i = -1;
-	while(++i < 50)
+	i = -1;  
+	while(++i < TILE_SIZE)
 	{
 		j = -1;
-		while(++j < 50)
+		while(++j < TILE_SIZE)
 			mlx_put_pixel(img, j + x, i + y, color);
 	}
 }
@@ -66,7 +97,6 @@ void	drawplayer(t_cub *cb, int y, int x)
 
 void	dda(int xi, int yi, int xf, int yf, t_cub *map)
 {
-	// t_data	p;
 	int dy,dx;
 	float yinc,xinc;
 	int steps;
@@ -91,62 +121,228 @@ void	dda(int xi, int yi, int xf, int yf, t_cub *map)
 		steps--;
 	}
 }
+float	normlizeAngle(float angle)
+{
+	if (angle < 0)
+        angle += (2 * M_PI);
+    else
+        angle = remainder(angle, 2 * M_PI);
+    return (angle);
+}
 
-void minimap(t_cub *cb)
+
+void	castRay(t_cub *cb, int __unused  r)
+{
+	/*###################################*/
+	/*###################################*/
+	cb->rayAngle = normlizeAngle(cb->rayAngle);
+	float h_down = 0;
+	float h_right = 0;
+	float h_up = 0;
+	float h_left = 0;
+	if (cb->rayAngle > 0 && cb->rayAngle < M_PI)
+		h_down = 1;
+	h_up = !h_down;
+	h_right = 0;
+	if (cb->rayAngle < 0.5 * M_PI  || cb->rayAngle >  1.5 * M_PI )
+		h_right = 1;
+	h_left = !h_right;
+	
+	float	x_Hintercept;
+	float	y_Hintercept;
+	int		found_horz;
+	
+	found_horz = 0;
+	cb->horzW_x = 0;
+	cb->horzW_y = 0;
+	// int horsW_Content = 0;
+	y_Hintercept = floor(cb->y_p / TILE_SIZE) * TILE_SIZE; 
+	if (sin(cb->rayAngle) > 0)
+		y_Hintercept += TILE_SIZE;
+	x_Hintercept = (y_Hintercept - cb->y_p) / tan(cb->rayAngle);
+	if (cos(cb->rayAngle) < 0)
+		x_Hintercept = cb->x_p - fabs(x_Hintercept);
+	else
+		x_Hintercept = cb->x_p + fabs(x_Hintercept);
+		
+	cb->y_hstep = TILE_SIZE;
+	if (sin(cb->rayAngle) < 0)
+		cb->y_hstep *= -1;
+	cb->x_hstep = TILE_SIZE / tan(cb->rayAngle);
+	if ((cos(cb->rayAngle) < 0 && cb->x_hstep > 0)|| (cos(cb->rayAngle) > 0 && cb->x_hstep < 0))
+		cb->x_hstep *= -1;
+	float	nextHorz_x = x_Hintercept;
+	float	nextHorz_y = y_Hintercept;
+	if (sin(cb->rayAngle) < 0)
+		nextHorz_y -= 0.001;
+	while (nextHorz_x >= 0 && nextHorz_x <=WIDTH && nextHorz_y >= 0 && nextHorz_y <= HEIGHT)
+	{
+		float	xTocheck = nextHorz_x;
+		float	yTocheck = nextHorz_y + (h_up ? -1 : 0);
+		if (check_wall(cb , xTocheck, yTocheck))
+		{
+			cb->horzW_x = nextHorz_x;
+			cb->horzW_y = nextHorz_y;
+			// horsW_Content =  cb->map[(int)floor(yTocheck / TILE_SIZE)][(int)floor(xTocheck / TILE_SIZE)];
+			found_horz = 1;
+			break ;
+		}
+		else
+		{
+			nextHorz_x += cb->x_hstep;
+			nextHorz_y += cb->y_hstep;
+		}
+	}
+	// dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
+	// printf("dx=%f  dy%f\n", fabs(dx), fabs(dy));
+	/*###################################*/
+	/*###################################*/
+	/*vertical*/
+	/*###################################*/
+	/*###################################*/
+	// printf("--->%f\n", cb->rayAngle);
+	cb->rayAngle = normlizeAngle(cb->rayAngle);
+	// float v_down = 0;
+	float v_right = 0;
+	// float v_up = 0;
+	float v_left = 0;
+	// if (cb->rayAngle > 0 && cb->rayAngle < M_PI)
+	// 	v_down = 1;
+	// v_up = !v_down;
+	// v_right = 0;
+	if (cb->rayAngle < M_PI / 2  || cb->rayAngle >  3 * M_PI / 2)
+		v_right = 1;
+	v_left = !v_right;
+	int	found_vertical = 0;
+	cb->VertW_x = 0;
+	cb->VertW_y = 0;
+	float	x_Vintercept; 
+	float	y_Vintercept;
+	// int vertW_Content = 0;
+	x_Vintercept = floor(cb->x_p / TILE_SIZE) * TILE_SIZE; 
+	if (cos(cb->rayAngle) > 0)
+		x_Vintercept += TILE_SIZE;
+	y_Vintercept = (x_Vintercept - cb->x_p) * tan(cb->rayAngle);
+	
+	if(sin(cb->rayAngle) > 0)
+		y_Vintercept = cb->y_p + fabs(y_Vintercept);
+	else
+		y_Vintercept = cb->y_p - fabs(y_Vintercept);
+
+	//calculate xstep && ystep 
+	cb->x_vstep = TILE_SIZE;
+	if (cos(cb->rayAngle) < 0)
+		cb->x_vstep *= -1;
+	
+	cb->y_vstep = TILE_SIZE * tan(cb->rayAngle);   
+	if ((sin(cb->rayAngle) > 0 && cb->y_vstep < 0)
+		|| (sin(cb->rayAngle) < 0 && cb->y_vstep > 0))
+		cb->y_vstep *= -1;
+	
+	float nextVert_x = x_Vintercept;
+	float nextVert_y = y_Vintercept;
+	found_vertical = 0;
+	if (cos(cb->rayAngle) < 0)
+		nextVert_x -= 0.001;
+	while (nextVert_x >= 0 && nextVert_x <= WIDTH && nextVert_y >= 0 && nextVert_y <= HEIGHT)
+	{
+		float	xVTocheck = nextVert_x + (v_left ? -1 : 0);
+		float	yVTocheck = nextVert_y;
+		
+		if (check_wall(cb ,xVTocheck, yVTocheck))
+		{
+			//find wall hit 
+			cb->VertW_x = nextVert_x;
+			cb->VertW_y = nextVert_y;
+			// vertW_Content=  cb->map[(int)yVTocheck / TILE_SIZE][(int)xVTocheck / TILE_SIZE];
+			found_vertical = 1;
+			break ;
+		}
+		else
+		{
+			nextVert_x += cb->x_vstep;
+			nextVert_y += cb->y_vstep;
+		}
+	}
+	float disH;
+	float disV;
+	if (found_horz)
+		disH = sqrt(pow(cb->horzW_x - cb->x_p, 2) + pow(cb->horzW_y - cb->y_p, 2));
+	else
+		disH = 100000;
+	if (found_vertical)
+		disV = sqrt(pow(cb->VertW_x - cb->x_p, 2) + pow(cb->VertW_y - cb->y_p, 2));
+	else
+		disV = 100000;
+	if (disH >= disV){
+			dda(cb->x_p, cb->y_p, cb->VertW_x ,  cb->VertW_y , cb);
+	}
+	else if (disV > disH)
+			dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
+	// 	wallheaight = 72000 / disH;
+	// float ystart = (HEIGHT / 2) - (wallheaight / 2);
+	// float yend = ystart + wallheaight;
+	// // printf("dis%f  Hei%f yst%f yen%f\n", dis, wallheaight, ystart, yend);
+	// // exit(0);
+	// // int x = ystart;
+	// // x = abs(x);
+	// while (ystart < yend){
+	// 	// puts("hna");
+	// 	if (ystart >= 0 && ystart < HEIGHT)
+	// 		mlx_put_pixel(cb->img, r, ystart, rgb(241, 12,41,255));
+	// 	ystart++;
+	// 	// x++;
+	// }
+	  
+	 
+}
+
+void	minimap(t_cub *cb)
 {
 		
-	int i = -1;
-	int j;
+	int	i;
+	int	j;
+
+	i = -1;
 	while(cb->map[++i])
 	{
 		j = -1;
 		while(cb->map[i][++j])
 		{
 			if (cb->map[i][j] == '1')
-				draw_squar(cb->img, i * 50, j * 50, rgb(255,0,0,128));
+				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(255,0,0,128));
 			else if (cb->map[i][j] == '0')
-				draw_squar(cb->img, i * 50 , j *50, rgb(0,0,0,255));
-			else if (cb->map[i][j] == 'N')
+				draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, rgb(0,0,0,255));
+			if (cb->map[i][j] == 'N')
 			{
 				if (cb->x_p == -1 && cb->y_p == -1)
 				{
-					cb->x_p = j * 50 + 25;
-					cb->y_p = i * 50 + 25;	
+					cb->x_p = j * TILE_SIZE + 25;
+					cb->y_p = i * TILE_SIZE + 25;	
 				}
-				draw_squar(cb->img, i * 50, j * 50, rgb(0,0,0,255));
+				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(0,0,0,255));
 			}
 		}
 	}
 	drawplayer(cb, cb->x_p, cb->y_p);
 	i = 0;
-	float yf, xf;
 	float inc = rad(FOV) / WIDTH;
-	cb->teta = cb->view_p - rad(FOV / 2);
+	cb->rayAngle = cb->view_p - rad(FOV / 2);
 	while (i < WIDTH)
 	{
-		yf = sin(cb->teta) * 50;
-		xf = cos(cb->teta) * 50;
-		dda(cb->x_p, cb->y_p, xf + cb->x_p, yf + cb->y_p, cb);
-		cb->teta += inc;
+		castRay(cb, i);
+		cb->rayAngle += inc;
 		i++;
 	}
-	
-	// cb->teta = cb->view_p - rad(FOV / 2) + cb->angle;
-	// printf("%f-------%f\n", cb->teta, rad(0));
-	// for (int i = 0; i < WIDTH;i++)
-	// {	
-	// 	cb->teta += rad(FOV) / WIDTH;
-	// }
-	// dda(cb->x_p, cb->y_p, xf + cb->x_p + 15, yf + cb->y_p, cb);
-	// dda(cb->x_p, cb->y_p, xf + cb->x_p + 30, yf + cb->y_p, cb);
-	// dda(cb->x_p, cb->y_p, xf + cb->x_p + 45, yf + cb->y_p, cb);
 
 }
 void	ft_hook(void *p)
 {
 	t_cub *cb = p;
 	
-	// cp_cb = cb;
+	// for(int i = 0 ; i < HEIGHT ; i++)
+	// 	for(int j = 0; j < WIDTH; j++)
+	// 		mlx_put_pixel(cb->img, j,i,rgb(0,0,0,255));
 	cb->xtmp = cb->x_p ;
 	cb->ytmp = cb->y_p ;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_ESCAPE))
@@ -156,22 +352,22 @@ void	ft_hook(void *p)
 			cb->xtmp += cos(cb->view_p) * SPEED;
 			cb->ytmp += sin(cb->view_p) * SPEED;
 	}
-	if (mlx_is_key_down(cb->mlx, MLX_KEY_A))
+	else if (mlx_is_key_down(cb->mlx, MLX_KEY_A))
 	{
 			cb->xtmp -= cos(cb->view_p + rad(90)) * SPEED;
 			cb->ytmp -= sin(cb->view_p + rad(90)) * SPEED;
 	}
-	if (mlx_is_key_down(cb->mlx, MLX_KEY_S))
+	else if (mlx_is_key_down(cb->mlx, MLX_KEY_S))
 	{	
 			cb->xtmp -= cos(cb->view_p) * SPEED;
 			cb->ytmp -= sin(cb->view_p) * SPEED;
 	}
-	if (mlx_is_key_down(cb->mlx, MLX_KEY_D))
+	else if (mlx_is_key_down(cb->mlx, MLX_KEY_D))
 	{
 			cb->xtmp += cos(cb->view_p + rad(90)) * SPEED;
 			cb->ytmp += sin(cb->view_p + rad(90)) * SPEED;
 	}
-	if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
+	else if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
 	{
 		cb->view_p -= 0.05;
 		if (cb->view_p >= 0)
@@ -179,57 +375,47 @@ void	ft_hook(void *p)
 		else if (cb->view_p < 2*M_PI)
 			cb->view_p += 2*M_PI;
 	}
-	if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
+	else if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
 	{
 		cb->view_p += 0.05;
 		if (cb->view_p >= 0)
-			cb->view_p -= 2*M_PI;
-		else if (cb->view_p < 2*M_PI)
-			cb->view_p += 2*M_PI;
+			cb->view_p -= 2 * M_PI;
+		else if (cb->view_p < 2 * M_PI)
+			cb->view_p += 2 * M_PI;
 	}
-	if ((cb->map[(int)(cb->ytmp + (SPEED / 2)) / 50][(int)cb->xtmp / 50] != '1'
-		|| cb->map[(int)(cb->ytmp - (SPEED /2))/50][(int)cb->xtmp/50] != '1'
-		|| cb->map[(int)cb->ytmp/50][(int)(cb->xtmp - (SPEED / 2) ) / 50] != '1'
-		|| cb->map[(int)cb->ytmp/50][(int)(cb->xtmp + (SPEED / 2))/50] != '1'))
+	if ((cb->map[(int)(cb->y_p) / TILE_SIZE][(int)cb->xtmp / TILE_SIZE] != '1'
+		&& cb->map[(int)(cb->ytmp)/TILE_SIZE][(int)cb->x_p/TILE_SIZE] != '1'
+		&& cb->map[(int)cb->ytmp/TILE_SIZE][(int)(cb->xtmp) / TILE_SIZE] != '1'))
 		{
 			cb->x_p = cb->xtmp;
 			cb->y_p = cb->ytmp;
 			minimap(cb);
-		}		
+		}
 }
-/*
-yp & xp 
-if yp || xp !1 
-y1 = yp + ky 
-x1 = xp
-*/
 
 int main()
 {
-	// int fd;
-	t_cub *cb;	
+	// int fd;	
+	t_cub *cb;
 
 	cb = malloc(sizeof(t_cub));
 	cb->map = malloc(sizeof(char *) * 8);
 	
 	cb->map[0] = "111111111111111111";
 	cb->map[1] = "100000001000000001";
-	cb->map[2] = "101010100000110011";
+	cb->map[2] = "100000100000110011";
 	cb->map[3] = "100000000000001001";
-	cb->map[4] = "1000100N0000000001";
-	cb->map[5] = "100000000001110001";
+	cb->map[4] = "100000000000000001";
+	cb->map[5] = "100N00000001110001";
 	cb->map[6] = "111111111111111111";
 	cb->map[7] = NULL;
-	// int color;
-	// mlx_is_key_down(mlx, MLX_KEY_W);
 	
 	cb->x_p = -1;
 	cb->y_p = -1;
-	// cb->angle = 0;
 	cb->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 0);
 	cb->img = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
-	cb->view_p = 3 * (M_PI / 2);
-	cb->teta = cb->view_p - rad(FOV / 2);
+	cb->view_p = 3 * (M_PI/2);
+	cb->rayAngle = cb->view_p - rad(FOV / 2);
 	minimap(cb);
 	mlx_image_to_window(cb->mlx, cb->img, 0, 0); 
 	mlx_loop_hook(cb->mlx, ft_hook, cb);

@@ -4,7 +4,7 @@ CC = gcc
 
 FLAG = -framework Cocoa -framework OpenGL -framework IOKit 
 
-CFLAGS = -Wall -Wextra -Werror -I  cub3d.h
+CFLAGS = #-Wall -Wextra -Werror -I  cub3d.h
 
 SRC = main.c
 
