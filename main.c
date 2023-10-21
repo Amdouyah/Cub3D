@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/21 14:42:23 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/21 14:50:03 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,6 +397,12 @@ int main()
 {
 	// int fd;	
 	t_cub *cb;
+	t_info glo;
+
+	if (ac != 2)
+		return (error("wrong number of arguments\n"));
+	parsing(av[1], &glo);
+	////
 
 	cb = malloc(sizeof(t_cub));
 	cb->map = malloc(sizeof(char *) * 8);
