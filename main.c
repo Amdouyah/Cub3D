@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/22 11:03:09 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:41:50 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,17 @@ void	castRay(t_cub *cb, int __unused  r)
 	  
 	 
 }
+void	init_view(t_cub *cb, char c)
+{
+	if (c == 'N')
+		cb->view_p = 3 * M_PI / 2;
+	else if (c == 'W')
+		cb->view_p =  M_PI;
+	else if (c == 'E')
+		cb->view_p =  0;
+	else if (c == 'S')
+		cb->view_p =  M_PI / 2;
+}
 
 void	minimap(t_cub *cb)
 {
@@ -315,12 +326,13 @@ void	minimap(t_cub *cb)
 				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(255,0,0,128));
 			else if (cb->map[i][j] == '0')
 				draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, rgb(0,0,0,255));
-			if (cb->map[i][j] == 'N')
+			if (cb->map[i][j] == 'N' || cb->map[i][j] == 'S' || cb->map[i][j] == 'W' || cb->map[i][j] == 'E')
 			{
+				init_view(cb, cb->map[i][j]);
 				if (cb->x_p == -1 && cb->y_p == -1)
 				{
 					cb->x_p = j * TILE_SIZE + 25;
-					cb->y_p = i * TILE_SIZE + 25;	
+					cb->y_p = i * TILE_SIZE + 25;
 				}
 				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(0,0,0,255));
 			}
