@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/21 14:50:03 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/22 11:03:09 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
 
 int check_wall(t_cub *cb ,float x, float y)
 {
@@ -21,9 +22,10 @@ int check_wall(t_cub *cb ,float x, float y)
   // Get the content of the map cell at the given coordinates.
   int index_x = (int)floor(x / TILE_SIZE);
   int index_y = (int)floor(y / TILE_SIZE);
-  if (index_x > 18)
+  if (index_y >= 14)
     return (1);
-  if (index_y >= 7)
+	int len_y = ft_strlen(cb->map[index_y]);
+  if (index_x >= len_y)
     return (1);
   char mapContent = cb->map[index_y][index_x];
   if (mapContent == '1')
@@ -86,11 +88,11 @@ void	drawplayer(t_cub *cb, int y, int x)
 	int	j;
 
 	i = 0;
-	while(i < 6)
+	while(i < 4)
 	{
 		j = -1;
-		while(++j < 6)
-			mlx_put_pixel(cb->img, j + y - 3, i + x - 3, rgb(255, 205, 75, 255));
+		while(++j < 4)
+			mlx_put_pixel(cb->img, j + y - 2, i + x - 2, rgb(255, 205, 75, 255));
 		i++;
 	}
 }
@@ -393,7 +395,7 @@ void	ft_hook(void *p)
 		}
 }
 
-int main()
+int main(int ac, char **av )
 {
 	// int fd;	
 	t_cub *cb;
@@ -405,16 +407,25 @@ int main()
 	////
 
 	cb = malloc(sizeof(t_cub));
-	cb->map = malloc(sizeof(char *) * 8);
+	// cb->map = malloc(sizeof glo.map.map);
+	cb->map = glo.map.map;
+	// cb->map = malloc(sizeof(char *) * 8);
+
+	// while(glo.map.map[i])
+	// {
+	// 	puts(glo.map.map[i]);
+	// 	i++;
+	// }
+	// exit(0);
 	
-	cb->map[0] = "111111111111111111";
-	cb->map[1] = "100000001000000001";
-	cb->map[2] = "100000100000110011";
-	cb->map[3] = "100000000000001001";
-	cb->map[4] = "100000000000000001";
-	cb->map[5] = "100N00000001110001";
-	cb->map[6] = "111111111111111111";
-	cb->map[7] = NULL;
+	// cb->map[0] = "111111111111111111";
+	// cb->map[1] = "100000001000000001";
+	// cb->map[2] = "100000100000110011";
+	// cb->map[3] = "100000000000001001";
+	// cb->map[4] = "100000000000000001";
+	// cb->map[5] = "100N00000001110001";
+	// cb->map[6] = "111111111111111111";
+	// cb->map[7] = NULL;
 	
 	cb->x_p = -1;
 	cb->y_p = -1;

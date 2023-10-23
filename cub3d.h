@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/21 14:51:20 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:09:12 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 #define FOV 60
 #define HEIGHT 900
 #define WIDTH 1024
-#define SPEED 3
-#define TILE_SIZE 50
+#define SPEED 2
+#define TILE_SIZE 20
 
 ///
 # include "./libft/libft.h"
