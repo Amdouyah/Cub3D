@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/23 15:09:12 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:05:46 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <math.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 #define FOV 60
-#define HEIGHT 900
-#define WIDTH 1024
-#define SPEED 2
+#define HEIGHT 740
+#define WIDTH 1150
+#define SPEED 1
 #define TILE_SIZE 20
 
 ///
@@ -118,6 +118,7 @@ typedef struct s_cub{
 	float			y_hstep;
 	float			x_vstep;
 	float			y_vstep;
+	t_info 			*glo;
 
 }t_cub;
 

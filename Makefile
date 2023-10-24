@@ -24,7 +24,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJ)
 	cd libft && make
-	$(CC) $(CFLAGS) -fsanitize=address -g $(FLAG) /Users/amdouyah/Desktop/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/amdouyah/.brew/opt/glfw/lib/" $(SRC) -o $(NAME) ./libft/libft.a
+	$(CC) $(CFLAGS) $(FLAG) /Users/amdouyah/Desktop/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/amdouyah/.brew/opt/glfw/lib/" $(SRC) -o $(NAME) ./libft/libft.a
 
 clean :
 	@rm -rf $(OBJ)

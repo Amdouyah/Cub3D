@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/24 15:10:40 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:07:58 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int check_wall(t_cub *cb ,float x, float y)
   // Get the content of the map cell at the given coordinates.
   int index_x = (int)floor(x / TILE_SIZE);
   int index_y = (int)floor(y / TILE_SIZE);
-  if (index_y >= 14)
+  int ym = 0;
+  while (cb->map[ym])
+	ym++;
+  if (index_y >= ym)
     return (1);
 	int len_y = ft_strlen(cb->map[index_y]);
   if (index_x >= len_y)
@@ -268,33 +271,43 @@ void	castRay(t_cub *cb, int __unused  r)
 	}
 	float disH;
 	float disV;
-	if (found_horz)
+	float main = 0;
+	if (found_horz){
 		disH = sqrt(pow(cb->horzW_x - cb->x_p, 2) + pow(cb->horzW_y - cb->y_p, 2));
-	else
+
+	}
+	else{
 		disH = 100000;
+	}
 	if (found_vertical)
 		disV = sqrt(pow(cb->VertW_x - cb->x_p, 2) + pow(cb->VertW_y - cb->y_p, 2));
 	else
 		disV = 100000;
 	if (disH >= disV){
-			dda(cb->x_p, cb->y_p, cb->VertW_x ,  cb->VertW_y , cb);
+		main = disV;
+			// dda(cb->x_p, cb->y_p, cb->VertW_x ,  cb->VertW_y , cb);
 	}
 	else if (disV > disH)
-			dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
-	// 	wallheaight = 72000 / disH;
-	// float ystart = (HEIGHT / 2) - (wallheaight / 2);
-	// float yend = ystart + wallheaight;
-	// // printf("dis%f  Hei%f yst%f yen%f\n", dis, wallheaight, ystart, yend);
-	// // exit(0);
-	// // int x = ystart;
-	// // x = abs(x);
-	// while (ystart < yend){
-	// 	// puts("hna");
-	// 	if (ystart >= 0 && ystart < HEIGHT)
-	// 		mlx_put_pixel(cb->img, r, ystart, rgb(241, 12,41,255));
-	// 	ystart++;
-	// 	// x++;
-	// }
+	{
+		main = disH;
+		
+			// dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
+	}
+	main *=   cos(cb->rayAngle - cb->view_p);
+	float wallheaight = 20000 / main;
+	float ystart = (HEIGHT / 2) - (wallheaight / 2);
+	float yend = ystart + wallheaight;
+	// printf("dis%f  Hei%f yst%f yen%f\n", dis, wallheaight, ystart, yend);
+	// exit(0);
+	// int x = ystart;
+	// x = abs(x);
+	while (ystart < yend){
+		// puts("hna");
+		if (ystart >= 0 && ystart < HEIGHT )
+			mlx_put_pixel(cb->img, r, ystart, rgb(241, 12,41,255));
+		ystart++;
+		// x++;
+	}
 	  
 	 
 }
@@ -309,7 +322,19 @@ void	init_view(t_cub *cb, char c)
 	else if (c == 'S')
 		cb->view_p =  M_PI / 2;
 }
+void ft_ceil(t_cub *cb)
+{
+	 for(int i = 0 ; i < HEIGHT / 2 ; i++)
+		for(int j = 0; j < WIDTH; j++)
+			mlx_put_pixel(cb->img, j,i, rgb(cb->glo->cling.red, cb->glo->cling.green, cb->glo->cling.blue, 255));
+}
 
+void ft_floor(t_cub *cb)
+{
+	 for(int i = HEIGHT / 2 ; i < HEIGHT ; i++)
+		for(int j = 0; j < WIDTH; j++)
+			mlx_put_pixel(cb->img, j,i, rgb(cb->glo->flor.red, cb->glo->flor.green, cb->glo->flor.blue, 255));
+}
 void	minimap(t_cub *cb)
 {
 		
@@ -317,15 +342,17 @@ void	minimap(t_cub *cb)
 	int	j;
 
 	i = -1;
+	ft_ceil(cb);
+	ft_floor(cb);
 	while(cb->map[++i])
 	{
 		j = -1;
 		while(cb->map[i][++j])
 		{
-			if (cb->map[i][j] == '1')
-				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(255,0,0,128));
-			else if (cb->map[i][j] == '0')
-				draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, rgb(0,0,0,255));
+			// if (cb->map[i][j] == '1')
+				// draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(255,0,0,128));
+			// else if (cb->map[i][j] == '0')
+				// draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, rgb(0,0,0,255));
 			if (cb->map[i][j] == 'N' || cb->map[i][j] == 'S' || cb->map[i][j] == 'W' || cb->map[i][j] == 'E')
 			{
 				if (cb->x_p == -1 && cb->y_p == -1)
@@ -334,11 +361,11 @@ void	minimap(t_cub *cb)
 					cb->x_p = j * TILE_SIZE + 25;
 					cb->y_p = i * TILE_SIZE + 25;
 				}
-				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(0,0,0,255));
+				// draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(0,0,0,255));
 			}
 		}
 	}
-	drawplayer(cb, cb->x_p, cb->y_p);
+	// drawplayer(cb, cb->x_p, cb->y_p);
 	i = 0;
 	float inc = rad(FOV) / WIDTH;
 	cb->rayAngle = cb->view_p - rad(FOV / 2);
@@ -357,6 +384,7 @@ void	ft_hook(void *p)
 	// for(int i = 0 ; i < HEIGHT ; i++)
 	// 	for(int j = 0; j < WIDTH; j++)
 	// 		mlx_put_pixel(cb->img, j,i,rgb(0,0,0,255));
+	
 	cb->xtmp = cb->x_p ;
 	cb->ytmp = cb->y_p ;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_ESCAPE))
@@ -383,7 +411,7 @@ void	ft_hook(void *p)
 	}
 	else if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
 	{
-		cb->view_p -= 0.05;
+		cb->view_p -= rad(2);
 		if (cb->view_p >= 0)
 			cb->view_p -= 2*M_PI;
 		else if (cb->view_p < 2*M_PI)
@@ -391,7 +419,7 @@ void	ft_hook(void *p)
 	}
 	else if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
 	{
-		cb->view_p += 0.05;
+		cb->view_p += rad(2);
 		if (cb->view_p >= 0)
 			cb->view_p -= 2 * M_PI;
 		else if (cb->view_p < 2 * M_PI)
@@ -405,22 +433,26 @@ void	ft_hook(void *p)
 			cb->y_p = cb->ytmp;
 			minimap(cb);
 		}
+
+
 }
 
 int main(int ac, char **av )
 {
 	// int fd;	
-	t_cub *cb;
+	t_cub *cb = NULL;
 	t_info glo;
 
 	if (ac != 2)
 		return (error("wrong number of arguments\n"));
 	parsing(av[1], &glo);
 	////
-
 	cb = malloc(sizeof(t_cub));
+	cb->glo = &glo;
+
 	// cb->map = malloc(sizeof glo.map.map);
-	cb->map = glo.map.map;
+	// exit(0);
+	cb->map = cb->glo->map.map;
 	// cb->map = malloc(sizeof(char *) * 8);
 
 	// while(glo.map.map[i])
@@ -441,14 +473,13 @@ int main(int ac, char **av )
 	
 	cb->x_p = -1;
 	cb->y_p = -1;
-	cb->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 0);
-	cb->img = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
 	cb->view_p = 3 * (M_PI/2);
 	cb->rayAngle = cb->view_p - rad(FOV / 2);
+	cb->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 0);
+	cb->img = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
 	minimap(cb);
 	mlx_image_to_window(cb->mlx, cb->img, 0, 0); 
 	mlx_loop_hook(cb->mlx, ft_hook, cb);
 	mlx_loop(cb->mlx);
 	 
 }
-
