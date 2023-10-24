@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/23 16:41:50 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:10:40 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,9 +328,9 @@ void	minimap(t_cub *cb)
 				draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, rgb(0,0,0,255));
 			if (cb->map[i][j] == 'N' || cb->map[i][j] == 'S' || cb->map[i][j] == 'W' || cb->map[i][j] == 'E')
 			{
-				init_view(cb, cb->map[i][j]);
 				if (cb->x_p == -1 && cb->y_p == -1)
 				{
+					init_view(cb, cb->map[i][j]);
 					cb->x_p = j * TILE_SIZE + 25;
 					cb->y_p = i * TILE_SIZE + 25;
 				}
