@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 10:26:58 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/27 10:51:17 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:27:03 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int check_wall(t_cub *cb ,float x, float y)
   // Get the content of the map cell at the given coordinates.
   int index_x = (int)floor(x / TILE_SIZE);
   int index_y = (int)floor(y / TILE_SIZE);
-  if (index_y >= 14)
+ int ym = 0;
+  while (cb->map[ym])
+	ym++;
+  if (index_y >= ym)
     return (1);
 	int len_y = ft_strlen(cb->map[index_y]);
   if (index_x >= len_y)
@@ -77,7 +80,7 @@ void	draw_squar(mlx_image_t *img, int y, int x, unsigned int color)
 			mlx_put_pixel(img, j + x, i + y, color);
 	}
 }
-uint32_t rgb(int r, int g, int b, int a)
+uint32_t r_g_b(int r, int g, int b, int a)
 {
 	return (r << 26 | g << 16 | b << 8 | a);
 }
@@ -92,7 +95,7 @@ void	drawplayer(t_cub *cb, int y, int x)
 	{
 		j = -1;
 		while(++j < 4)
-			mlx_put_pixel(cb->img, j + y - 2, i + x - 2, rgb(255, 205, 75, 255));
+			mlx_put_pixel(cb->img, j + y - 2, i + x - 2, r_g_b(255, 205, 75, 255));
 		i++;
 	}
 }
@@ -117,7 +120,7 @@ void	dda(int xi, int yi, int xf, int yf, t_cub *map)
 	y = yi;
 	while (steps)
 	{
-		mlx_put_pixel(map->img, x, y, rgb(255,255,255,255));
+		mlx_put_pixel(map->img, x, y, r_g_b(255,255,255,255));
 		x += xinc;
 		y += yinc;
 		steps--;
@@ -276,28 +279,13 @@ void	castRay(t_cub *cb, int __unused  r)
 		disV = sqrt(pow(cb->VertW_x - cb->x_p, 2) + pow(cb->VertW_y - cb->y_p, 2));
 	else
 		disV = 100000;
-	// if (disH >= disV){
-	// 		dda(cb->x_p, cb->y_p, cb->VertW_x ,  cb->VertW_y , cb);
-	// }
-	// else if (disV > disH)
-	// 		dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
-	// 	wallheaight = 72000 / disH;
-	// float ystart = (HEIGHT / 2) - (wallheaight / 2);
-	// float yend = ystart + wallheaight;
-	// // printf("dis%f  Hei%f yst%f yen%f\n", dis, wallheaight, ystart, yend);
-	// // exit(0);
-	// // int x = ystart;
-	// // x = abs(x);
-	// while (ystart < yend){
-	// 	// puts("hna");
-	// 	if (ystart >= 0 && ystart < HEIGHT)
-	// 		mlx_put_pixel(cb->img, r, ystart, rgb(241, 12,41,255));
-	// 	ystart++;
-	// 	// x++;
-	// }
-	  
-	 
+	if (disH >= disV){
+			dda(cb->x_p, cb->y_p, cb->VertW_x ,  cb->VertW_y , cb);
+	}
+	else if (disV > disH)
+			dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
 }
+
 void	init_view(t_cub *cb, char c)
 {
 	if (c == 'N')
@@ -323,9 +311,9 @@ void	minimap(t_cub *cb)
 		while(cb->map[i][++j])
 		{
 			if (cb->map[i][j] == '1')
-				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(255,0,0,128));
+				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, r_g_b(255,0,0,128));
 			else if (cb->map[i][j] == '0')
-				draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, rgb(0,0,0,255));
+				draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, r_g_b(0,0,0,255));
 			if (cb->map[i][j] == 'N' || cb->map[i][j] == 'S' || cb->map[i][j] == 'W' || cb->map[i][j] == 'E')
 			{
 				if (cb->x_p == -1 && cb->y_p == -1)
@@ -334,7 +322,7 @@ void	minimap(t_cub *cb)
 					cb->x_p = j * TILE_SIZE + 25;
 					cb->y_p = i * TILE_SIZE + 25;
 				}
-				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(0,0,0,255));
+				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, r_g_b(0,0,0,255));
 			}
 		}
 	}
@@ -352,98 +340,47 @@ void	minimap(t_cub *cb)
 }
 void	ft_hook(void *p)
 {
-	t_cub *cb = p;
-	
-	// for(int i = 0 ; i < HEIGHT ; i++)
-	// 	for(int j = 0; j < WIDTH; j++)
-	// 		mlx_put_pixel(cb->img, j,i,rgb(0,0,0,255));
+	t_cub *cb;
+
+	cb = p;
 	cb->xtmp = cb->x_p ;
 	cb->ytmp = cb->y_p ;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(cb->mlx);
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_W))
-	{
-			cb->xtmp += cos(cb->view_p) * SPEED;
-			cb->ytmp += sin(cb->view_p) * SPEED;
-	}
+			ft_up(cb);
 	else if (mlx_is_key_down(cb->mlx, MLX_KEY_A))
-	{
-			cb->xtmp -= cos(cb->view_p + rad(90)) * SPEED;
-			cb->ytmp -= sin(cb->view_p + rad(90)) * SPEED;
-	}
-	else if (mlx_is_key_down(cb->mlx, MLX_KEY_S))
-	{	
-			cb->xtmp -= cos(cb->view_p) * SPEED;
-			cb->ytmp -= sin(cb->view_p) * SPEED;
-	}
+		ft_left(cb);
+	else if (mlx_is_key_down(cb->mlx, MLX_KEY_S))	
+		ft_down(cb);
 	else if (mlx_is_key_down(cb->mlx, MLX_KEY_D))
-	{
-			cb->xtmp += cos(cb->view_p + rad(90)) * SPEED;
-			cb->ytmp += sin(cb->view_p + rad(90)) * SPEED;
-	}
+		ft_right(cb);
 	else if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
-	{
-		cb->view_p -= 0.05;
-		if (cb->view_p >= 0)
-			cb->view_p -= 2*M_PI;
-		else if (cb->view_p < 2*M_PI)
-			cb->view_p += 2*M_PI;
-	}
+		ft_mv_left(cb);
 	else if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
+		ft_mv_right(cb);
+	if (wall_check(cb))
 	{
-		cb->view_p += 0.05;
-		if (cb->view_p >= 0)
-			cb->view_p -= 2 * M_PI;
-		else if (cb->view_p < 2 * M_PI)
-			cb->view_p += 2 * M_PI;
+		cb->x_p = cb->xtmp;
+		cb->y_p = cb->ytmp;
+		minimap(cb);
 	}
-	if ((cb->map[(int)(cb->y_p) / TILE_SIZE][(int)cb->xtmp / TILE_SIZE] != '1'
-		&& cb->map[(int)(cb->ytmp)/TILE_SIZE][(int)cb->x_p/TILE_SIZE] != '1'
-		&& cb->map[(int)cb->ytmp/TILE_SIZE][(int)(cb->xtmp) / TILE_SIZE] != '1'))
-		{
-			cb->x_p = cb->xtmp;
-			cb->y_p = cb->ytmp;
-			minimap(cb);
-		}
 }
 
 int main(int ac, char **av )
 {
-	// int fd;	
 	t_cub *cb;
 	t_info glo;
 
 	if (ac != 2)
 		return (error("wrong number of arguments\n"));
 	parsing(av[1], &glo);
-	////
-
 	cb = malloc(sizeof(t_cub));
-	// cb->map = malloc(sizeof glo.map.map);
 	cb->map = glo.map.map;
-	// cb->map = malloc(sizeof(char *) * 8);
-
-	// while(glo.map.map[i])
-	// {
-	// 	puts(glo.map.map[i]);
-	// 	i++;
-	// }
-	// exit(0);
-	
-	// cb->map[0] = "111111111111111111";
-	// cb->map[1] = "100000001000000001";
-	// cb->map[2] = "100000100000110011";
-	// cb->map[3] = "100000000000001001";
-	// cb->map[4] = "100000000000000001";
-	// cb->map[5] = "100N00000001110001";
-	// cb->map[6] = "111111111111111111";
-	// cb->map[7] = NULL;
-	
 	cb->x_p = -1;
 	cb->y_p = -1;
 	cb->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 0);
 	cb->img = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
-	// cb->view_p = 3 * (M_PI/2);
 	cb->rayAngle = cb->view_p - rad(FOV / 2);
 	minimap(cb);
 	mlx_image_to_window(cb->mlx, cb->img, 0, 0); 

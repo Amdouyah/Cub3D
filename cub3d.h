@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/27 10:56:42 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:46:47 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,31 @@ void	reding_file_s(t_info *glo, char *name);
 void	is_end_cub(char *name);
 char	*reading_file(t_info *glo, char *name);
 int		checker(char *str);
+/*raycast*/
+int		check_wall(t_cub *cb ,float x, float y);
+/*draw*/
+void	minimap(t_cub *cb);
+void	drawplayer(t_cub *cb, int y, int x);
+void	draw_squar(mlx_image_t *img, int y, int x, unsigned int color);
+/*math*/
+double	rad(float degree);
+int 	ft_abs(int n);
+float	normlizeAngle(float angle);
+void	dda(int xi, int yi, int xf, int yf, t_cub *map);
+/*colors*/
+uint32_t	r_g_b(int r, int g, int b, int a);
+void 		ft_floor(t_cub *cb);
+void		ft_ceil(t_cub *cb);
+uint32_t	get_color(mlx_texture_t *png, uint32_t x, uint32_t y);
+/*hooks*/
+void	ft_hook(void *p);
+void	ft_up(t_cub *cb);
+void	ft_down(t_cub *cb);
+void	ft_left(t_cub *cb);
+void	ft_right(t_cub *cb);
+void	ft_mv_left(t_cub *cb);
+void	ft_mv_right(t_cub *cb);
+int		wall_check(t_cub *cb);
+void	init_view(t_cub *cb, char c);
 
 #endif

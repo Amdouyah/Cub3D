@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 10:38:15 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/27 10:49:59 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:15:31 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #define HEIGHT 740
 #define WIDTH 1150
 #define SPEED 2
-#define TILE_SIZE 20
+#define TILE_SIZE 30
 
 ///
 # include "../libft/libft.h"
@@ -115,5 +115,14 @@ void	reding_file_s(t_info *glo, char *name);
 void	is_end_cub(char *name);
 char	*reading_file(t_info *glo, char *name);
 int		checker(char *str);
+double	rad(float degree);
+/*hooks*/
+void	ft_up(t_cub *cb);
+void	ft_down(t_cub *cb);
+void	ft_left(t_cub *cb);
+void	ft_right(t_cub *cb);
+void	ft_mv_left(t_cub *cb);
+void	ft_mv_right(t_cub *cb);
+int		wall_check(t_cub *cb);
 
 #endif
