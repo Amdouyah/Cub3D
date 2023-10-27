@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mainpast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/27 10:59:17 by amdouyah         ###   ########.fr       */
+/*   Created: 2023/10/24 22:21:32 by amdouyah          #+#    #+#             */
+/*   Updated: 2023/10/24 22:26:11 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ int check_wall(t_cub *cb ,float x, float y)
   // Get the content of the map cell at the given coordinates.
   int index_x = (int)floor(x / TILE_SIZE);
   int index_y = (int)floor(y / TILE_SIZE);
-  int ym = 0;
-  while (cb->map[ym])
-	ym++;
-  if (index_y >= ym)
+  if (index_y >= 14)
     return (1);
 	int len_y = ft_strlen(cb->map[index_y]);
   if (index_x >= len_y)
@@ -134,30 +131,7 @@ float	normlizeAngle(float angle)
         angle = remainder(angle, 2 * M_PI);
     return (angle);
 }
-uint32_t get_color(mlx_texture_t *png, uint32_t x, uint32_t y)
-{
-    if (png == NULL || png->pixels == NULL) {
-        // Error handling: Check for NULL texture or NULL pixel data
-        return 0;
-    }
 
-    if (x >= png->width || y >= png->height) {
-        // Error handling: Check if (x, y) is within the image boundaries
-        return 0;
-    }
-
-    // Calculate the offset to the pixel at (x, y)
-    uint32_t pixelOffset = (y * png->width + x) * png->bytes_per_pixel;
-
-    // Extract the color components
-    uint8_t red = png->pixels[pixelOffset];
-    uint8_t green = png->pixels[pixelOffset + 1];
-    uint8_t blue = png->pixels[pixelOffset + 2];
-    uint8_t alpha = png->pixels[pixelOffset + 3];
-
-    // Create a 32-bit color value (assuming RGBA format)
-    return ((red << 24) | (green << 16) | (blue << 8) | alpha);
-}
 
 void	castRay(t_cub *cb, int __unused  r)
 {
@@ -294,68 +268,35 @@ void	castRay(t_cub *cb, int __unused  r)
 	}
 	float disH;
 	float disV;
-	float main = 0;
-	if (found_horz){
+	if (found_horz)
 		disH = sqrt(pow(cb->horzW_x - cb->x_p, 2) + pow(cb->horzW_y - cb->y_p, 2));
-
-	}
-	else{
+	else
 		disH = 100000;
-	}
 	if (found_vertical)
 		disV = sqrt(pow(cb->VertW_x - cb->x_p, 2) + pow(cb->VertW_y - cb->y_p, 2));
 	else
 		disV = 100000;
 	if (disH >= disV){
-		main = disV;
-			// dda(cb->x_p, cb->y_p, cb->VertW_x ,  cb->VertW_y , cb);
+			dda(cb->x_p, cb->y_p, cb->VertW_x ,  cb->VertW_y , cb);
 	}
 	else if (disV > disH)
-	{
-		main = disH;
-			// dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
-	}
-	main *=   cos(cb->rayAngle - cb->view_p);
-	float wallheaight = 19500 / main;
-	float ystart = (HEIGHT / 2) - (wallheaight / 2);
-	float yend = ystart + wallheaight;
-	// printf("dis%f  Hei%f yst%f yen%f\n", dis, wallheaight, ystart, yend);
-	// exit(0);
-	float m = 20 / wallheaight;
-	float x_tx;
-	if (found_horz == 1)
-		x_tx = (int)cb->horzW_x % 20;
-	else
-		x_tx = (int)cb->VertW_y % 20;
-	float ys =  ystart;
-	// int x = ystart;
-	// x = abs(x);
-	while (ystart < yend){
-		// if (ystart >= 0 && ystart < HEIGHT)
-		// 	mlx_put_pixel(cb->img, r, ystart, rgb(0, 12,41,255));
-		float y_tx = (ystart - ys) * m;
-		if (y_tx >= 20)
-			y_tx = 0;
-		if (ystart >= 0 && ystart < HEIGHT )
-		{
-			if (disH >= disV){
-				if (cos(cb->rayAngle) > 0)
-					mlx_put_pixel(cb->img, r, ystart, get_color(cb->no, x_tx, y_tx));
-				else if (cos(cb->rayAngle) < 0)
-					mlx_put_pixel(cb->img, r, ystart, rgb(0, 0,0,255));
-
-			}
-			else {
-				if (sin(cb->rayAngle) > 0)
-					mlx_put_pixel(cb->img, r, ystart, rgb(255, 0,0,255));
-				else if (sin(cb->rayAngle) < 0)
-					mlx_put_pixel(cb->img, r, ystart, rgb(0, 255,0,255));
-
-			}
-		}
-		ystart++;
-		
-	}
+			dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
+	// 	wallheaight = 72000 / disH;
+	// float ystart = (HEIGHT / 2) - (wallheaight / 2);
+	// float yend = ystart + wallheaight;
+	// // printf("dis%f  Hei%f yst%f yen%f\n", dis, wallheaight, ystart, yend);
+	// // exit(0);
+	// // int x = ystart;
+	// // x = abs(x);
+	// while (ystart < yend){
+	// 	// puts("hna");
+	// 	if (ystart >= 0 && ystart < HEIGHT)
+	// 		mlx_put_pixel(cb->img, r, ystart, rgb(241, 12,41,255));
+	// 	ystart++;
+	// 	// x++;
+	// }
+	  
+	 
 }
 void	init_view(t_cub *cb, char c)
 {
@@ -368,19 +309,7 @@ void	init_view(t_cub *cb, char c)
 	else if (c == 'S')
 		cb->view_p =  M_PI / 2;
 }
-void ft_ceil(t_cub *cb)
-{
-	 for(int i = 0 ; i < HEIGHT / 2 ; i++)
-		for(int j = 0; j < WIDTH; j++)
-			mlx_put_pixel(cb->img, j,i, rgb(cb->glo->cling.red, cb->glo->cling.green, cb->glo->cling.blue, 255));
-}
 
-void ft_floor(t_cub *cb)
-{
-	 for(int i = HEIGHT / 2 ; i < HEIGHT ; i++)
-		for(int j = 0; j < WIDTH; j++)
-			mlx_put_pixel(cb->img, j,i, rgb(cb->glo->flor.red, cb->glo->flor.green, cb->glo->flor.blue, 255));
-}
 void	minimap(t_cub *cb)
 {
 		
@@ -388,17 +317,15 @@ void	minimap(t_cub *cb)
 	int	j;
 
 	i = -1;
-	ft_ceil(cb);
-	ft_floor(cb);
 	while(cb->map[++i])
 	{
 		j = -1;
 		while(cb->map[i][++j])
 		{
-			// if (cb->map[i][j] == '1')
-			// 	draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(255,0,0,128));
-			// else if (cb->map[i][j] == '0')
-				// draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, rgb(0,0,0,255));
+			if (cb->map[i][j] == '1')
+				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(255,0,0,128));
+			else if (cb->map[i][j] == '0')
+				draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, rgb(0,0,0,255));
 			if (cb->map[i][j] == 'N' || cb->map[i][j] == 'S' || cb->map[i][j] == 'W' || cb->map[i][j] == 'E')
 			{
 				if (cb->x_p == -1 && cb->y_p == -1)
@@ -407,11 +334,11 @@ void	minimap(t_cub *cb)
 					cb->x_p = j * TILE_SIZE + 25;
 					cb->y_p = i * TILE_SIZE + 25;
 				}
-				// draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(0,0,0,255));
+				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, rgb(0,0,0,255));
 			}
 		}
 	}
-	// drawplayer(cb, cb->x_p, cb->y_p);
+	drawplayer(cb, cb->x_p, cb->y_p);
 	i = 0;
 	float inc = rad(FOV) / WIDTH;
 	cb->rayAngle = cb->view_p - rad(FOV / 2);
@@ -430,7 +357,6 @@ void	ft_hook(void *p)
 	// for(int i = 0 ; i < HEIGHT ; i++)
 	// 	for(int j = 0; j < WIDTH; j++)
 	// 		mlx_put_pixel(cb->img, j,i,rgb(0,0,0,255));
-	
 	cb->xtmp = cb->x_p ;
 	cb->ytmp = cb->y_p ;
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_ESCAPE))
@@ -457,43 +383,44 @@ void	ft_hook(void *p)
 	}
 	else if (mlx_is_key_down(cb->mlx, MLX_KEY_LEFT))
 	{
-		cb->view_p -= rad(2);
-		normlizeAngle(cb->view_p);
+		cb->view_p -= 0.05;
+		if (cb->view_p >= 0)
+			cb->view_p -= 2*M_PI;
+		else if (cb->view_p < 2*M_PI)
+			cb->view_p += 2*M_PI;
 	}
 	else if (mlx_is_key_down(cb->mlx, MLX_KEY_RIGHT))
 	{
-		cb->view_p += rad(2);
-		normlizeAngle(cb->view_p);
-
+		cb->view_p += 0.05;
+		if (cb->view_p >= 0)
+			cb->view_p -= 2 * M_PI;
+		else if (cb->view_p < 2 * M_PI)
+			cb->view_p += 2 * M_PI;
 	}
 	if ((cb->map[(int)(cb->y_p) / TILE_SIZE][(int)cb->xtmp / TILE_SIZE] != '1'
-		&& cb->map[(int)(cb->ytmp)/TILE_SIZE][(int)cb->x_p / TILE_SIZE] != '1'
+		&& cb->map[(int)(cb->ytmp)/TILE_SIZE][(int)cb->x_p/TILE_SIZE] != '1'
 		&& cb->map[(int)cb->ytmp/TILE_SIZE][(int)(cb->xtmp) / TILE_SIZE] != '1'))
 		{
 			cb->x_p = cb->xtmp;
 			cb->y_p = cb->ytmp;
 			minimap(cb);
 		}
-
-
 }
 
 int main(int ac, char **av )
 {
 	// int fd;	
-	t_cub *cb = NULL;
+	t_cub *cb;
 	t_info glo;
 
 	if (ac != 2)
 		return (error("wrong number of arguments\n"));
 	parsing(av[1], &glo);
 	////
-	cb = malloc(sizeof(t_cub));
-	cb->glo = &glo;
 
+	cb = malloc(sizeof(t_cub));
 	// cb->map = malloc(sizeof glo.map.map);
-	// exit(0);
-	cb->map = cb->glo->map.map;
+	cb->map = glo.map.map;
 	// cb->map = malloc(sizeof(char *) * 8);
 
 	// while(glo.map.map[i])
@@ -514,14 +441,10 @@ int main(int ac, char **av )
 	
 	cb->x_p = -1;
 	cb->y_p = -1;
-	cb->no = mlx_load_png(cb->glo->no_path);
-	cb->so = mlx_load_png(cb->glo->so_path);
-	cb->we = mlx_load_png(cb->glo->we_path);
-	cb->ea = mlx_load_png(cb->glo->ea_path);
-	cb->view_p = 3 * (M_PI/2);
-	cb->rayAngle = cb->view_p - rad(FOV / 2);
 	cb->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 0);
 	cb->img = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
+	cb->view_p = 3 * (M_PI/2);
+	cb->rayAngle = cb->view_p - rad(FOV / 2);
 	minimap(cb);
 	mlx_image_to_window(cb->mlx, cb->img, 0, 0); 
 	mlx_loop_hook(cb->mlx, ft_hook, cb);

@@ -1,15 +1,15 @@
-NO ./textures/path_to_the_north_texture
-SO ./textures/path_to_the_south_texture
-WE ./textures/path_to_the_west_texture
-EA ./textures/path_to_the_east_texture
+NO ./textures/n.png
+SO ./textures/n.png
+WE ./textures/n.png
+EA ./textures/n.png
 
-C 0, 169, 255
-F 166, 255, 150
+C 10, 50, 100
+F 0, 50, 50
 
 
         1111111111111111111111111
-        1000000000110000000000001
-        10110000011100000W0000001
+        1000000000010000000000001
+        10110000011010000N0000001
         1001000000000000000000001
 111111111011000001110000000000001
 100000000011000001110111111111111

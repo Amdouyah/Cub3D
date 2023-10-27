@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3dbonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/27 10:56:42 by amdouyah         ###   ########.fr       */
+/*   Created: 2023/10/27 10:38:15 by amdouyah          #+#    #+#             */
+/*   Updated: 2023/10/27 10:49:59 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-#define CUB3D_H
+#ifndef CUB3DBONUS_H
+#define CUB3DBONUS_H
 
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
-# include "../MLX42/include/MLX42/MLX42.h"
+# include "../../MLX42/include/MLX42/MLX42.h"
 #define FOV 60
 #define HEIGHT 740
 #define WIDTH 1150
-#define SPEED 1
+#define SPEED 2
 #define TILE_SIZE 20
 
 ///
-# include "./libft/libft.h"
-# include "./get_next_line/get_next_line.h"
+# include "../libft/libft.h"
+# include "../get_next_line/get_next_line.h"
 
 typedef struct s_map
 {
@@ -82,10 +82,6 @@ typedef struct s_cub{
 	float			x_vstep;
 	float			y_vstep;
 	t_info 			*glo;
-	mlx_texture_t	*no;
-	mlx_texture_t	*so;
-	mlx_texture_t	*we;
-	mlx_texture_t	*ea;
 
 }t_cub;
 
