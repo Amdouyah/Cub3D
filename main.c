@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 07:00:26 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/30 08:16:11 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,164 +47,63 @@ int get_position(float ver, float width)
 	int pos = ((ver / TILE_SIZE) - (int)ver/TILE_SIZE ) * width;
 	return pos;
 }
-
-
-void	castRay(t_cub *cb, int __unused  r)
+void	get_hsteps(t_cub *cb)
 {
-	/*###################################*/
-	/*###################################*/
-	cb->rayAngle = normlizeAngle(cb->rayAngle);
-	float h_down = 0;
-	float h_right = 0;
-	float h_up = 0;
-	float h_left = 0;
-	if (cb->rayAngle > 0 && cb->rayAngle < M_PI)
-		h_down = 1;
-	h_up = !h_down;
-	h_right = 0;
-	if (cb->rayAngle < 0.5 * M_PI  || cb->rayAngle >  1.5 * M_PI )
-		h_right = 1;
-	h_left = !h_right;
-	
-	float	x_Hintercept;
-	float	y_Hintercept;
-	int		found_horz;
-	
-	found_horz = 0;
-	cb->horzW_x = 0;
-	cb->horzW_y = 0;
-	// int horsW_Content = 0;
-	y_Hintercept = floor(cb->y_p / TILE_SIZE) * TILE_SIZE; 
-	if (sin(cb->rayAngle) > 0)
-		y_Hintercept += TILE_SIZE;
-	x_Hintercept = (y_Hintercept - cb->y_p) / tan(cb->rayAngle);
-	if (cos(cb->rayAngle) < 0)
-		x_Hintercept = cb->x_p - fabs(x_Hintercept);
-	else
-		x_Hintercept = cb->x_p + fabs(x_Hintercept);
-		
 	cb->y_hstep = TILE_SIZE;
 	if (sin(cb->rayAngle) < 0)
 		cb->y_hstep *= -1;
 	cb->x_hstep = TILE_SIZE / tan(cb->rayAngle);
 	if ((cos(cb->rayAngle) < 0 && cb->x_hstep > 0)|| (cos(cb->rayAngle) > 0 && cb->x_hstep < 0))
 		cb->x_hstep *= -1;
-	float	nextHorz_x = x_Hintercept;
-	float	nextHorz_y = y_Hintercept;
-	if (sin(cb->rayAngle) < 0)
-		nextHorz_y -= 0.001;
-	while (nextHorz_x >= 0 && nextHorz_x <=WIDTH && nextHorz_y >= 0 && nextHorz_y <= HEIGHT)
-	{
-		float	xTocheck = nextHorz_x;
-		float	yTocheck = nextHorz_y + (h_up ? -1 : 0);
-		if (check_wall(cb , xTocheck, yTocheck))
-		{
-			cb->horzW_x = nextHorz_x;
-			cb->horzW_y = nextHorz_y;
-			// horsW_Content =  cb->map[(int)floor(yTocheck / TILE_SIZE)][(int)floor(xTocheck / TILE_SIZE)];
-			found_horz = 1;
-			break ;
-		}
-		else
-		{
-			nextHorz_x += cb->x_hstep;
-			nextHorz_y += cb->y_hstep;
-		}
-	}
-	// dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
-	// printf("dx=%f  dy%f\n", fabs(dx), fabs(dy));
-	/*###################################*/
-	/*###################################*/
-	/*vertical*/
-	/*###################################*/
-	/*###################################*/
-	// printf("--->%f\n", cb->rayAngle);
-	cb->rayAngle = normlizeAngle(cb->rayAngle);
-	// float v_down = 0;
-	float v_right = 0;
-	// float v_up = 0;
-	float v_left = 0;
-	// if (cb->rayAngle > 0 && cb->rayAngle < M_PI)
-	// 	v_down = 1;
-	// v_up = !v_down;
-	// v_right = 0;
-	if (cb->rayAngle < M_PI / 2  || cb->rayAngle >  3 * M_PI / 2)
-		v_right = 1;
-	v_left = !v_right;
-	int	found_vertical = 0;
-	cb->VertW_x = 0;
-	cb->VertW_y = 0;
-	float	x_Vintercept; 
-	float	y_Vintercept;
-	// int vertW_Content = 0;
-	x_Vintercept = floor(cb->x_p / TILE_SIZE) * TILE_SIZE; 
-	if (cos(cb->rayAngle) > 0)
-		x_Vintercept += TILE_SIZE;
-	y_Vintercept = (x_Vintercept - cb->x_p) * tan(cb->rayAngle);
-	
-	if(sin(cb->rayAngle) > 0)
-		y_Vintercept = cb->y_p + fabs(y_Vintercept);
-	else
-		y_Vintercept = cb->y_p - fabs(y_Vintercept);
+}
 
-	//calculate xstep && ystep 
+void	get_vstep(t_cub *cb)
+{
 	cb->x_vstep = TILE_SIZE;
 	if (cos(cb->rayAngle) < 0)
 		cb->x_vstep *= -1;
-	
 	cb->y_vstep = TILE_SIZE * tan(cb->rayAngle);   
 	if ((sin(cb->rayAngle) > 0 && cb->y_vstep < 0)
 		|| (sin(cb->rayAngle) < 0 && cb->y_vstep > 0))
 		cb->y_vstep *= -1;
-	
-	float nextVert_x = x_Vintercept;
-	float nextVert_y = y_Vintercept;
-	found_vertical = 0;
-	if (cos(cb->rayAngle) < 0)
-		nextVert_x -= 0.001;
-	while (nextVert_x >= 0 && nextVert_x <= WIDTH && nextVert_y >= 0 && nextVert_y <= HEIGHT)
-	{
-		float	xVTocheck = nextVert_x + (v_left ? -1 : 0);
-		float	yVTocheck = nextVert_y;
-		
-		if (check_wall(cb ,xVTocheck, yVTocheck))
-		{
-			//find wall hit 
-			cb->VertW_x = nextVert_x;
-			cb->VertW_y = nextVert_y;
-			// vertW_Content=  cb->map[(int)yVTocheck / TILE_SIZE][(int)xVTocheck / TILE_SIZE];
-			found_vertical = 1;
-			break ;
-		}
-		else
-		{
-			nextVert_x += cb->x_vstep;
-			nextVert_y += cb->y_vstep;
-		}
-	}
-	float disH;
-	float disV;
-	float main = 0;
-	if (found_horz){
-		disH = sqrt(pow(cb->horzW_x - cb->x_p, 2) + pow(cb->horzW_y - cb->y_p, 2));
+}
 
-	}
-	else{
-		disH = 100000;
-	}
-	if (found_vertical)
-		disV = sqrt(pow(cb->VertW_x - cb->x_p, 2) + pow(cb->VertW_y - cb->y_p, 2));
+void	get_angle_view(t_cub *cb)
+{
+	cb->rayAngle = normlizeAngle(cb->rayAngle);
+	cb->down = 0;
+	cb->right = 0;
+	cb->up = 0;
+	cb->left = 0;
+	if (cb->rayAngle > 0 && cb->rayAngle < M_PI)
+		cb->down = 1;
+	cb->up = !cb->down;
+	cb->right = 0;
+	if (cb->rayAngle < 0.5 * M_PI  || cb->rayAngle >  1.5 * M_PI )
+		cb->right = 1;
+	cb->left = !cb->right;
+}
+
+void	castRay(t_cub *cb, int __unused  r)
+{
+	float	main;
+	get_angle_view(cb);
+	get_horz(cb);
+	get_vert(cb);
+	
+	main = 0;
+	if (cb->found_horz)
+		cb->disH = sqrt(pow(cb->horzW_x - cb->x_p, 2) + pow(cb->horzW_y - cb->y_p, 2));
 	else
-		disV = 100000;
-	if (disH >= disV){
-		main = disV;
-			// dda(cb->x_p, cb->y_p, cb->VertW_x ,  cb->VertW_y , cb);
-	}
-	else if (disV > disH)
-	{
-		main = disH;
-			// dda(cb->x_p, cb->y_p, cb->horzW_x ,  cb->horzW_y , cb);
-	}
+		cb->disH = 100000;
+	if (cb->found_vert)
+		cb->disV = sqrt(pow(cb->VertW_x - cb->x_p, 2) + pow(cb->VertW_y - cb->y_p, 2));
+	else
+		cb->disV = 100000;
+	if (cb->disH >= cb->disV)
+		main = cb->disV;
+	else if (cb->disV > cb->disH)
+		main = cb->disH;
 	main *=   cos(cb->rayAngle - cb->view_p);
 	float wallheaight = 19500 / main;
 	float ystart = (HEIGHT / 2) - (wallheaight / 2);
@@ -217,7 +116,7 @@ void	castRay(t_cub *cb, int __unused  r)
 	{
 		if (ystart >= 0 && ystart < HEIGHT )
 		{
-			if (disH >= disV){
+			if (cb->disH >= cb->disV){
 				if (cos(cb->rayAngle) > 0){
 					x_txt = get_position(cb->VertW_y, cb->ea->height);
 					mlx_put_pixel(cb->img, r, ystart, get_color(cb->ea, x_txt, y_txt));
@@ -309,6 +208,5 @@ int main(int ac, char **av )
 	minimap(cb);
 	mlx_image_to_window(cb->mlx, cb->img, 0, 0); 
 	mlx_loop_hook(cb->mlx, ft_hook, cb);
-	mlx_loop(cb->mlx);
-	 
+	mlx_loop(cb->mlx);	 
 }

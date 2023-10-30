@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/27 16:46:47 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/30 08:17:30 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #define FOV 60
 #define HEIGHT 740
 #define WIDTH 1150
-#define SPEED 1
+#define SPEED 2
 #define TILE_SIZE 20
 
 ///
@@ -76,11 +76,23 @@ typedef struct s_cub{
 	float			horzW_x;
 	float			horzW_y;
 	float			VertW_x; 
-	float			VertW_y ;
+	float			VertW_y;
+	float			nextHorz_x;
+	float			nextHorz_y;
+	float			nextVert_x;
+	float			nextVert_y;
 	float			x_hstep;
 	float			y_hstep;
 	float			x_vstep;
 	float			y_vstep;
+	int				right;
+	int				down;
+	int				up;
+	int				left;
+	int				found_horz;
+	int				found_vert;
+	float			disH;
+	float			disV;
 	t_info 			*glo;
 	mlx_texture_t	*no;
 	mlx_texture_t	*so;
@@ -121,6 +133,12 @@ char	*reading_file(t_info *glo, char *name);
 int		checker(char *str);
 /*raycast*/
 int		check_wall(t_cub *cb ,float x, float y);
+void	get_horz(t_cub *cb);
+void	get_horz2(t_cub *cb);
+void	get_vert(t_cub *cb);
+void	get_vert2(t_cub *cb);
+void	get_vstep(t_cub *cb);
+void	get_hsteps(t_cub *cb);
 /*draw*/
 void	minimap(t_cub *cb);
 void	drawplayer(t_cub *cb, int y, int x);
