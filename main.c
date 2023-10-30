@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/27 16:47:28 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/30 07:00:26 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ void	drawplayer(t_cub *cb, int y, int x)
 		i++;
 	}
 }
+int get_position(float ver, float width)
+{
+	
+	int pos = ((ver / TILE_SIZE) - (int)ver/TILE_SIZE ) * width;
+	return pos;
+}
+
 
 void	castRay(t_cub *cb, int __unused  r)
 {
@@ -202,40 +209,40 @@ void	castRay(t_cub *cb, int __unused  r)
 	float wallheaight = 19500 / main;
 	float ystart = (HEIGHT / 2) - (wallheaight / 2);
 	float yend = ystart + wallheaight;
-	// printf("dis%f  Hei%f yst%f yen%f\n", dis, wallheaight, ystart, yend);
-	// exit(0);
-	float m = 20 / wallheaight;
-	float x_tx;
-	if (found_horz == 1)
-		x_tx = (int)cb->horzW_x % 20;
-	else
-		x_tx = (int)cb->VertW_y % 20;
-	float ys =  ystart;
-	// int x = ystart;
-	// x = abs(x);
-	while (ystart < yend){
-		// if (ystart >= 0 && ystart < HEIGHT)
-		// 	mlx_put_pixel(cb->img, r, ystart, (0, 12,41,255));
-		float y_tx = (ystart - ys) * m;
-		if (y_tx >= 20)
-			y_tx = 0;
+	float y_txt = 0.0;
+	float x_txt = 0.0;
+	float inc = cb->no->height / wallheaight;
+	
+	while (ystart < yend)
+	{
 		if (ystart >= 0 && ystart < HEIGHT )
 		{
-			if (disH > disV){
-				if (cos(cb->rayAngle) > 0)
-					mlx_put_pixel(cb->img, r, ystart, get_color(cb->no, x_tx, y_tx));
-				else if (cos(cb->rayAngle) < 0)
-					mlx_put_pixel(cb->img, r, ystart, r_g_b(0, 0,0,255));
+			if (disH >= disV){
+				if (cos(cb->rayAngle) > 0){
+					x_txt = get_position(cb->VertW_y, cb->ea->height);
+					mlx_put_pixel(cb->img, r, ystart, get_color(cb->ea, x_txt, y_txt));
+				}
+				else if (cos(cb->rayAngle) < 0){
+					x_txt = get_position(cb->VertW_y, cb->we->width);
+					mlx_put_pixel(cb->img, r, ystart, get_color(cb->we, x_txt, y_txt));
+				}
 
 			}
 			else {
 				if (sin(cb->rayAngle) > 0)
-					mlx_put_pixel(cb->img, r, ystart, r_g_b(255, 0,0,255));
+				{
+					x_txt = get_position(cb->horzW_x, cb->so->width);
+					mlx_put_pixel(cb->img, r, ystart, get_color(cb->so, x_txt, y_txt));
+				}
 				else if (sin(cb->rayAngle) < 0)
-					mlx_put_pixel(cb->img, r, ystart, r_g_b(0, 255,0,255));
+				{
+					x_txt = get_position(cb->horzW_x, cb->no->width);
+					mlx_put_pixel(cb->img, r, ystart, get_color(cb->no, x_txt, y_txt));
+				}
 
 			}
 		}
+		y_txt += inc;
 		ystart++;
 		
 	}
