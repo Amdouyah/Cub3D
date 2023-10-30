@@ -20,8 +20,7 @@ SRC = main.c  hooks.c math.c hooks1.c color.c raycast.c raycast2.c\
 	./parsing/f_more_tools.c \
 	./parsing/parsing_func.c \
 
-SRCBONUS = ./bonus/mainbonus.c \
-	./bonus/hooks_bonus.c \
+SRCBONUS = ./bonus/main_bonus.c ./bonus/hooksbonus.c ./bonus/mathbonus.c ./bonus/hooks1bonus.c ./bonus/colorbonus.c ./bonus/raycastbonus.c ./bonus/raycast2bonus.c\
 	./get_next_line/get_next_line.c \
 	./get_next_line/get_next_line_utils.c \
 	./parsing/tools.c \
@@ -56,4 +55,4 @@ re : fclean all
 
 bonus : $(OBJBONUS)
 	cd libft && make
-	$(CC) $(CFLAGS) -fsanitize=address $(FLAG) /Users/amdouyah/Desktop/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/amdouyah/.brew/opt/glfw/lib/" $(SRCBONUS) -o $(NAMEBONUS) ./libft/libft.a
+	$(CC) $(CFLAGS)  $(FLAG) /Users/amdouyah/Desktop/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/amdouyah/.brew/opt/glfw/lib/" $(SRCBONUS) -o $(NAMEBONUS) ./libft/libft.a

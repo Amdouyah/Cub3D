@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 15:59:08 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:50:17 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3dbonus.h"
 
 void	get_angle_view(t_cub *cb)
 {
@@ -102,6 +102,35 @@ void	castRay(t_cub *cb, int __unused r)
 		ystart++;
 	}
 }
+void draw_minimap(t_cub *cb)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (cb->map[++i])
+	{
+		j = -1;
+		while (cb->map[i][++j])
+		{
+			if (cb->map[i][j] == '1')
+				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, r_g_b(255,0,0,128));
+			else if (cb->map[i][j] == '0')
+				draw_squar(cb->img, i * TILE_SIZE , j *TILE_SIZE, r_g_b(0,0,0,255));
+			if (cb->map[i][j] == 'N' || cb->map[i][j] == 'S' || cb->map[i][j] == 'W' || cb->map[i][j] == 'E')
+			{
+				if (cb->x_p == -1 && cb->y_p == -1)
+				{
+					init_view(cb, cb->map[i][j]);
+					cb->x_p = j * TILE_SIZE + 25;
+					cb->y_p = i * TILE_SIZE + 25;
+				}
+				draw_squar(cb->img, i * TILE_SIZE, j * TILE_SIZE, r_g_b(0,0,0,255));
+			}
+		}
+	}
+	drawplayer(cb, cb->x_p, cb->y_p);
+}
 
 void	minimap(t_cub *cb)
 {
@@ -117,8 +146,7 @@ void	minimap(t_cub *cb)
 		j = -1;
 		while (cb->map[i][++j])
 		{
-			if (cb->map[i][j] == 'N' || cb->map[i][j] == 'S'
-				|| cb->map[i][j] == 'W' || cb->map[i][j] == 'E')
+			if (cb->map[i][j] == 'N' || cb->map[i][j] == 'S' || cb->map[i][j] == 'W' || cb->map[i][j] == 'E')
 			{
 				if (cb->x_p == -1 && cb->y_p == -1)
 				{
@@ -138,6 +166,7 @@ void	minimap(t_cub *cb)
 		cb->rayangle += inc;
 		i++;
 	}
+	draw_minimap(cb);
 }
 
 int	main(int ac, char **av)

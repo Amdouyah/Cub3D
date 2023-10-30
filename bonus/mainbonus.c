@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 10:26:58 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 08:53:09 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:46:44 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,6 @@ int check_wall(t_cub *cb ,float x, float y)
   return (0);
 }
 
-// int check_wall(t_cub *cb, float x, float y)
-// {
-//   // Check if the x and y coordinates are within the bounds of the map.
-// 	if ((int)y / TILE_SIZE < 7 
-// 		&& (int)x / TILE_SIZE < 18
-// 		&& cb->map[(int) y / TILE_SIZE][(int) x / TILE_SIZE] == '1')
-// 		return (1);
-// 	return (0);
-// }
-
 double rad(float degree)
 {
 	return (degree * M_PI / 180);
@@ -60,7 +50,7 @@ void	ft_swap(int *a, int *b)
 	*b = c; 
 }
 
-int abs(int n)
+int ft_abs(int n)
 { 
 	if (n < 0)
 		return (n * (-1));

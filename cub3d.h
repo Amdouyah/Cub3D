@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 08:57:28 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:07:38 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define FOV 60
 # define HEIGHT 740
 # define WIDTH 1150
-# define SPEED 2
+# define SPEED 1
 # define TILE_SIZE 20
 
 # include "./get_next_line/get_next_line.h"
@@ -98,6 +98,10 @@ typedef struct s_cub
 	mlx_texture_t	*so;
 	mlx_texture_t	*we;
 	mlx_texture_t	*ea;
+	int				x_mouse;
+	int				y_mouse;
+	int				y_mouse_tmp;
+	int				x_mouse_tmp;
 
 }					t_cub;
 
