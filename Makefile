@@ -8,7 +8,7 @@ FLAG = -framework Cocoa -framework OpenGL -framework IOKit
 
 CFLAGS = -Wall -Wextra -Werror -I cub3d.h
 
-SRC = main.c  hooks.c math.c hooks1.c color.c raycast.c\
+SRC = main.c  hooks.c math.c hooks1.c color.c raycast.c raycast2.c\
 	./get_next_line/get_next_line.c \
 	./get_next_line/get_next_line_utils.c \
 	./parsing/tools.c \

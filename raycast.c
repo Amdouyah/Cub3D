@@ -6,21 +6,21 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:46:58 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 08:14:29 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/30 08:47:35 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_wall(t_cub *cb ,float x, float y)
+int	check_wall(t_cub *cb, float x, float y)
 {
 	int	ym;
 	int	len_y;
 	int	index_x;
 	int	index_y;
-  // Check if the x and y coordinates are within the bounds of the map.
+
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-    	return (1);
+		return (1);
 	index_x = (int)floor(x / TILE_SIZE);
 	index_y = (int)floor(y / TILE_SIZE);
 	ym = 0;
@@ -33,110 +33,111 @@ int	check_wall(t_cub *cb ,float x, float y)
 		return (1);
 	if (cb->map[index_y][index_x] == '1')
 		return (1);
-  return (0);
+	return (0);
 }
 
 void	get_horz(t_cub *cb)
 {
-	float	x_Hintercept;
-	float	y_Hintercept;
-	
+	float	x_hintercept;
+	float	y_hintercept;
+
 	cb->found_horz = 0;
-	cb->horzW_x = 0;
-	cb->horzW_y = 0;
-	y_Hintercept = floor(cb->y_p / TILE_SIZE) * TILE_SIZE; 
-	if (sin(cb->rayAngle) > 0)
-		y_Hintercept += TILE_SIZE;
-	x_Hintercept = (y_Hintercept - cb->y_p) / tan(cb->rayAngle);
-	if (cos(cb->rayAngle) < 0)
-		x_Hintercept = cb->x_p - fabs(x_Hintercept);
+	cb->horzw_x = 0;
+	cb->horzw_y = 0;
+	y_hintercept = floor(cb->y_p / TILE_SIZE) * TILE_SIZE;
+	if (sin(cb->rayangle) > 0)
+		y_hintercept += TILE_SIZE;
+	x_hintercept = (y_hintercept - cb->y_p) / tan(cb->rayangle);
+	if (cos(cb->rayangle) < 0)
+		x_hintercept = cb->x_p - fabs(x_hintercept);
 	else
-		x_Hintercept = cb->x_p + fabs(x_Hintercept);
+		x_hintercept = cb->x_p + fabs(x_hintercept);
 	get_hsteps(cb);
-	cb->nextHorz_x = x_Hintercept;
-	cb->nextHorz_y = y_Hintercept;
-	if (sin(cb->rayAngle) < 0)
-		cb->nextHorz_y -= 0.001;
+	cb->nexthorz_x = x_hintercept;
+	cb->nexthorz_y = y_hintercept;
+	if (sin(cb->rayangle) < 0)
+		cb->nexthorz_y -= 0.001;
 	get_horz2(cb);
 }
 
 void	get_horz2(t_cub *cb)
 {
-	float	xTocheck;
-	float	yTocheck;
-	
-	while (cb->nextHorz_x >= 0 && cb->nextHorz_x <= WIDTH && cb->nextHorz_y >= 0 && cb->nextHorz_y <= HEIGHT)
+	float	x_to_check;
+	float	y_to_check;
+
+	while (cb->nexthorz_x >= 0 && cb->nexthorz_x <= WIDTH && cb->nexthorz_y >= 0
+		&& cb->nexthorz_y <= HEIGHT)
 	{
-		xTocheck = cb->nextHorz_x;
-		yTocheck = 0.0;
+		x_to_check = cb->nexthorz_x;
+		y_to_check = 0.0;
 		if (cb->up)
-    		yTocheck = cb->nextHorz_y - 1.0;
+			y_to_check = cb->nexthorz_y - 1.0;
 		else
-   			 yTocheck = cb->nextHorz_y;
-		if (check_wall(cb , xTocheck, yTocheck))
+			y_to_check = cb->nexthorz_y;
+		if (check_wall(cb, x_to_check, y_to_check))
 		{
-			cb->horzW_x = cb->nextHorz_x;
-			cb->horzW_y = cb->nextHorz_y;
+			cb->horzw_x = cb->nexthorz_x;
+			cb->horzw_y = cb->nexthorz_y;
 			cb->found_horz = 1;
 			break ;
 		}
 		else
 		{
-			cb->nextHorz_x += cb->x_hstep;
-			cb->nextHorz_y += cb->y_hstep;
+			cb->nexthorz_x += cb->x_hstep;
+			cb->nexthorz_y += cb->y_hstep;
 		}
 	}
 }
 
-
 void	get_vert(t_cub *cb)
 {
-	float	x_Vintercept; 
-	float	y_Vintercept;
+	float	x_vintercept;
+	float	y_vintercept;
 
-	cb->VertW_x = 0;
-	cb->VertW_y = 0;
-	x_Vintercept = floor(cb->x_p / TILE_SIZE) * TILE_SIZE; 
-	if (cos(cb->rayAngle) > 0)
-		x_Vintercept += TILE_SIZE;
-	y_Vintercept = (x_Vintercept - cb->x_p) * tan(cb->rayAngle);
-	
-	if(sin(cb->rayAngle) > 0)
-		y_Vintercept = cb->y_p + fabs(y_Vintercept);
+	cb->vertw_x = 0;
+	cb->vertw_y = 0;
+	x_vintercept = floor(cb->x_p / TILE_SIZE) * TILE_SIZE;
+	if (cos(cb->rayangle) > 0)
+		x_vintercept += TILE_SIZE;
+	y_vintercept = (x_vintercept - cb->x_p) * tan(cb->rayangle);
+	if (sin(cb->rayangle) > 0)
+		y_vintercept = cb->y_p + fabs(y_vintercept);
 	else
-		y_Vintercept = cb->y_p - fabs(y_Vintercept);
+		y_vintercept = cb->y_p - fabs(y_vintercept);
 	get_vstep(cb);
-	cb->nextVert_x = x_Vintercept;
-	cb->nextVert_y = y_Vintercept;
+	cb->nextvert_x = x_vintercept;
+	cb->nextvert_y = y_vintercept;
 	cb->found_vert = 0;
-	if (cos(cb->rayAngle) < 0)
-		cb->nextVert_x -= 0.001;
+	if (cos(cb->rayangle) < 0)
+		cb->nextvert_x -= 0.001;
 	get_vert2(cb);
 }
 
 void	get_vert2(t_cub *cb)
 {
-	while (cb->nextVert_x >= 0 && cb->nextVert_x <= WIDTH && cb->nextVert_y >= 0 && cb->nextVert_y <= HEIGHT)
+	float	xv_tocheck;
+	float	yv_tocheck;
+
+	while (cb->nextvert_x >= 0 && cb->nextvert_x <= WIDTH && cb->nextvert_y >= 0
+		&& cb->nextvert_y <= HEIGHT)
 	{
-		float	xVTocheck = 0.0;
+		xv_tocheck = 0.0;
 		if (cb->left)
-			xVTocheck = cb->nextVert_x - 1.0;
+			xv_tocheck = cb->nextvert_x - 1.0;
 		else
-			xVTocheck = cb->nextVert_x;
-		float	yVTocheck = cb->nextVert_y;
-		
-		if (check_wall(cb ,xVTocheck, yVTocheck))
+			xv_tocheck = cb->nextvert_x;
+		yv_tocheck = cb->nextvert_y;
+		if (check_wall(cb, xv_tocheck, yv_tocheck))
 		{
-			cb->VertW_x = cb->nextVert_x;
-			cb->VertW_y = cb->nextVert_y;
+			cb->vertw_x = cb->nextvert_x;
+			cb->vertw_y = cb->nextvert_y;
 			cb->found_vert = 1;
 			break ;
 		}
 		else
 		{
-			cb->nextVert_x += cb->x_vstep;
-			cb->nextVert_y += cb->y_vstep;
+			cb->nextvert_x += cb->x_vstep;
+			cb->nextvert_y += cb->y_vstep;
 		}
 	}
 }
-

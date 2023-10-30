@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 10:26:58 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/27 16:27:03 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/30 08:53:09 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	dda(int xi, int yi, int xf, int yf, t_cub *map)
 		steps--;
 	}
 }
-float	normlizeAngle(float angle)
+float	normlizeangle(float angle)
 {
 	if (angle < 0)
         angle += (2 * M_PI);
@@ -140,7 +140,7 @@ void	castRay(t_cub *cb, int __unused  r)
 {
 	/*###################################*/
 	/*###################################*/
-	cb->rayAngle = normlizeAngle(cb->rayAngle);
+	cb->rayAngle = normlizeangle(cb->rayAngle);
 	float h_down = 0;
 	float h_right = 0;
 	float h_up = 0;
@@ -206,7 +206,7 @@ void	castRay(t_cub *cb, int __unused  r)
 	/*###################################*/
 	/*###################################*/
 	// printf("--->%f\n", cb->rayAngle);
-	cb->rayAngle = normlizeAngle(cb->rayAngle);
+	cb->rayAngle = normlizeangle(cb->rayAngle);
 	// float v_down = 0;
 	float v_right = 0;
 	// float v_up = 0;
