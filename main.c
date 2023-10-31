@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/31 20:09:27 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:44:42 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	main(int ac, char **av)
 	t_cub	*cb;
 	t_info	glo;
 
-	cb = NULL;
 	if (ac != 2)
 		return (error("wrong number of arguments\n"));
 	parsing(av[1], &glo);
@@ -111,10 +110,10 @@ int	main(int ac, char **av)
 	mlx_image_to_window(cb->mlx, cb->img, 0, 0);
 	mlx_loop_hook(cb->mlx, ft_hook, cb);
 	mlx_loop(cb->mlx);
-	free(cb);
 	mlx_delete_texture(cb->no);
 	mlx_delete_texture(cb->ea);
 	mlx_delete_texture(cb->we);
 	mlx_delete_texture(cb->so);
 	mlx_terminate(cb->mlx);
+	free(cb);
 }

@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/31 20:24:59 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:33:46 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,10 @@ void	parsing(char *name, t_info *glo)
 	while (*name == ' ' || *name == '\t')
 		name++;
 	is_end_cub(name);
-	is_map_connected(reading_file(glo, name));
-	glo->file = ft_split(reading_file(glo, name), '\n');
+	char *line = reading_file(glo, name);
+	is_map_connected(line);
+	
+	glo->file = ft_split(line, '\n');
+	free(line);
 	get_map_info(glo);
-	if (check_height(glo))
-	{
-		error("map error\n");
-		// free_tx_tab(glo);
-		// free_table(glo->file);
-		// free_cl_tab(glo);
-		exit(1);
-	}
 }
