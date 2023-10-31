@@ -6,11 +6,11 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:07:52 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/21 14:54:23 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:45:38 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3dbonus.h"
 
 char	*reading_file(t_info *glo, char *name)
 {

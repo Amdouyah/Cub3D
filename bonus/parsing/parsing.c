@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/21 14:54:25 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:24:59 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3dbonus.h"
 
 void	fill_line_tx(t_info *glo, int *count_tx, int i, char *tx)
 {
@@ -85,4 +85,12 @@ void	parsing(char *name, t_info *glo)
 	is_map_connected(reading_file(glo, name));
 	glo->file = ft_split(reading_file(glo, name), '\n');
 	get_map_info(glo);
+	if (check_height(glo))
+	{
+		error("map error\n");
+		// free_tx_tab(glo);
+		// free_table(glo->file);
+		// free_cl_tab(glo);
+		exit(1);
+	}
 }

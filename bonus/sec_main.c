@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   sec_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/31 20:09:27 by amdouyah         ###   ########.fr       */
+/*   Created: 2023/10/31 16:59:39 by bgannoun          #+#    #+#             */
+/*   Updated: 2023/10/31 17:02:38 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3dbonus.h"
+
+void	get_angle_view(t_cub *cb)
+{
+	cb->rayangle = normlizeangle(cb->rayangle);
+	cb->down = 0;
+	cb->right = 0;
+	cb->up = 0;
+	cb->left = 0;
+	if (cb->rayangle > 0 && cb->rayangle < M_PI)
+		cb->down = 1;
+	cb->up = !cb->down;
+	cb->right = 0;
+	if (cb->rayangle < 0.5 * M_PI || cb->rayangle > 1.5 * M_PI)
+		cb->right = 1;
+	cb->left = !cb->right;
+}
 
 void	init_rays(t_cub *cb, t_floats *vars)
 {
@@ -52,7 +68,7 @@ void	draw_rays(int r, t_cub *cb, t_floats *vars)
 				vars->y_txt));
 }
 
-void	castray(t_cub *cb, int r)
+void	cast_ray(t_cub *cb, int r)
 {
 	t_floats	vars;
 
@@ -94,27 +110,4 @@ void	init_vars(t_cub *cb, t_info *glo)
 	cb->rayangle = cb->view_p - rad(FOV / 2);
 	cb->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 1);
 	cb->img = mlx_new_image(cb->mlx, WIDTH, HEIGHT);
-}
-
-int	main(int ac, char **av)
-{
-	t_cub	*cb;
-	t_info	glo;
-
-	cb = NULL;
-	if (ac != 2)
-		return (error("wrong number of arguments\n"));
-	parsing(av[1], &glo);
-	cb = malloc(sizeof(t_cub));
-	init_vars(cb, &glo);
-	minimap(cb);
-	mlx_image_to_window(cb->mlx, cb->img, 0, 0);
-	mlx_loop_hook(cb->mlx, ft_hook, cb);
-	mlx_loop(cb->mlx);
-	free(cb);
-	mlx_delete_texture(cb->no);
-	mlx_delete_texture(cb->ea);
-	mlx_delete_texture(cb->we);
-	mlx_delete_texture(cb->so);
-	mlx_terminate(cb->mlx);
 }

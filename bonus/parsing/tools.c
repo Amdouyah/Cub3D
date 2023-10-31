@@ -6,11 +6,11 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:01:32 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/21 14:54:28 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:45:43 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3dbonus.h"
 
 void	free_table(char **tab)
 {

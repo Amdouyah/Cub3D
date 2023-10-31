@@ -3,63 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   hooksbonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 13:04:35 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 16:42:33 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:07:33 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3dbonus.h"
 
-void	ft_up(t_cub *cb)
+void	ft_hook_con(t_cub *cb)
 {
-	cb->xtmp += cos(cb->view_p) * SPEED;
-	cb->ytmp += sin(cb->view_p) * SPEED;
-}
-
-void	ft_left(t_cub *cb)
-{
-	cb->xtmp -= cos(cb->view_p + rad(90)) * SPEED;
-	cb->ytmp -= sin(cb->view_p + rad(90)) * SPEED;
-}
-
-void	ft_down(t_cub *cb)
-{
-	cb->xtmp -= cos(cb->view_p) * SPEED;
-	cb->ytmp -= sin(cb->view_p) * SPEED;
-}
-
-void	ft_right(t_cub *cb)
-{
-	cb->xtmp += cos(cb->view_p + rad(90)) * SPEED;
-	cb->ytmp += sin(cb->view_p + rad(90)) * SPEED;
-}
-void	ft_mouse(t_cub *cb)
-{
-	mlx_get_mouse_pos(cb->mlx, &cb->x_mouse_tmp, &cb->y_mouse_tmp);
-	if (cb->x_mouse_tmp > cb->x_mouse && cb->x_mouse_tmp > 0 
-			&& cb->x_mouse_tmp < WIDTH && cb->y_mouse_tmp > 0 
-			&& cb->y_mouse_tmp < HEIGHT)
-		cb->view_p +=  0.05;
-	else if (cb->x_mouse_tmp < cb->x_mouse && cb->x_mouse_tmp > 0 
-			&& cb->x_mouse_tmp < WIDTH && cb->y_mouse_tmp > 0 
-			&& cb->y_mouse_tmp < HEIGHT)
-		cb->view_p -=  0.05;
-	
-}
-
-void	ft_hook(void *p)
-{
-	t_cub	*cb;
-
-	cb = p;
-	cb->xtmp = cb->x_p;
-	cb->ytmp = cb->y_p;
-	cb->x_mouse_tmp = cb->x_mouse;
-	cb->y_mouse_tmp = cb->y_mouse;
-	
-	ft_mouse(cb);
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(cb->mlx);
 	if (mlx_is_key_down(cb->mlx, MLX_KEY_W))
@@ -82,4 +36,17 @@ void	ft_hook(void *p)
 		cb->y_mouse = cb->y_mouse_tmp;
 		minimap(cb);
 	}
+}
+
+void	ft_hook(void *p)
+{
+	t_cub	*cb;
+
+	cb = p;
+	cb->xtmp = cb->x_p;
+	cb->ytmp = cb->y_p;
+	cb->x_mouse_tmp = cb->x_mouse;
+	cb->y_mouse_tmp = cb->y_mouse;
+	ft_mouse(cb);
+	ft_hook_con(cb);
 }

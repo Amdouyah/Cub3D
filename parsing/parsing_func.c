@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:07:52 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/21 14:54:23 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:02:48 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*reading_file(t_info *glo, char *name)
 		if (!line)
 			break ;
 		all = join(all, line);
+		if (line)
+			free(line);
 		i++;
 	}
 	close (glo->fd);

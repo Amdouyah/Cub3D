@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 16:07:38 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:28:12 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include "../MLX42/include/MLX42/MLX42.h"
+// # include "/Users/bgannoun/MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -27,6 +28,17 @@
 
 # include "./get_next_line/get_next_line.h"
 # include "./libft/libft.h"
+
+typedef struct s_floats
+{
+	float	main;
+	float	wallheaight;
+	float	ystart;
+	float	yend;
+	float	y_txt;
+	float	x_txt;
+	float	inc;
+}				t_floats;
 
 typedef struct s_map
 {
@@ -102,6 +114,10 @@ typedef struct s_cub
 	int				y_mouse;
 	int				y_mouse_tmp;
 	int				x_mouse_tmp;
+	float			ystart;
+	float			yend;
+	float			y_txt;
+	float			x_txt;
 
 }					t_cub;
 
@@ -144,8 +160,11 @@ void				get_vert2(t_cub *cb);
 void				get_vstep(t_cub *cb);
 void				get_hsteps(t_cub *cb);
 int					get_position(float ver, float width);
+void				get_angle_view(t_cub *cb);
+void				castray(t_cub *cb, int r);
 /*draw*/
 void				minimap(t_cub *cb);
+void				sec_minimap(t_cub *cb);
 void				drawplayer(t_cub *cb, int y, int x);
 void				draw_squar(mlx_image_t *img, int y, int x,
 						unsigned int color);

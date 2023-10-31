@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 16:43:13 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:29:00 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3DBONUS_H
 
 # include "../../MLX42/include/MLX42/MLX42.h"
+// # include "/Users/bgannoun/MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -23,10 +24,21 @@
 # define HEIGHT 740
 # define WIDTH 1150
 # define SPEED 1
-# define TILE_SIZE 20
+# define TILE_S 20
 
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
+
+typedef struct s_floats
+{
+	float	main;
+	float	wallheaight;
+	float	ystart;
+	float	yend;
+	float	y_txt;
+	float	x_txt;
+	float	inc;
+}				t_floats;
 
 typedef struct s_map
 {
@@ -105,6 +117,17 @@ typedef struct s_cub
 
 }					t_cub;
 
+void				ft_mouse(t_cub *cb);
+void				ft_right(t_cub *cb);
+void				ft_down(t_cub *cb);
+void				ft_left(t_cub *cb);
+void				ft_up(t_cub *cb);
+void				get_angle_view(t_cub *cb);
+void				init_rays(t_cub *cb, t_floats *vars);
+void				draw_rays(int r, t_cub *cb, t_floats *vars);
+void				cast_ray(t_cub *cb, int r);
+void				init_vars(t_cub *cb, t_info *glo);
+int					check_height(t_info *glo);
 void				skeep_space(char **str);
 int					table_counter(char **table);
 int					checking_inter(t_colors color);
@@ -147,7 +170,7 @@ int					get_position(float ver, float width);
 /*draw*/
 void				minimap(t_cub *cb);
 void				drawplayer(t_cub *cb, int y, int x);
-void				draw_squar(mlx_image_t *img, int y, int x,
+void				draw_sq(mlx_image_t *img, int y, int x,
 						unsigned int color);
 /*math*/
 double				rad(float degree);

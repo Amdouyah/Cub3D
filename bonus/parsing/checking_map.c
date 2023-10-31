@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   checking_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:14:06 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/21 14:54:12 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:19:49 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3dbonus.h"
 
 void	is_map_valid(t_info *glo)
 {
@@ -18,8 +18,8 @@ void	is_map_valid(t_info *glo)
 	if (!glo->map.map || checking_map(glo->map.map))
 	{
 		error("map error\n");
-		free_tx_tab(glo);
-		free_table(glo->file);
+		// free_tx_tab(glo);
+		// free_table(glo->file);
 		exit(1);
 	}
 }

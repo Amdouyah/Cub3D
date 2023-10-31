@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks1.c                                           :+:      :+:    :+:   */
+/*   hooks1bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:18:54 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 16:42:26 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:48:19 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	ft_mv_right(t_cub *cb)
 
 int	wall_check(t_cub *cb)
 {
-	if ((cb->map[(int)(cb->y_p) / TILE_SIZE][(int)cb->xtmp / TILE_SIZE] != '1'
-			&& cb->map[(int)(cb->ytmp) / TILE_SIZE][(int)cb->x_p
-			/ TILE_SIZE] != '1' && cb->map[(int)cb->ytmp
-			/ TILE_SIZE][(int)(cb->xtmp) / TILE_SIZE] != '1'))
+	if ((cb->map[(int)(cb->y_p) / TILE_S][(int)cb->xtmp / TILE_S] != '1'
+			&& cb->map[(int)(cb->ytmp) / TILE_S][(int)cb->x_p
+			/ TILE_S] != '1' && cb->map[(int)cb->ytmp
+			/ TILE_S][(int)(cb->xtmp) / TILE_S] != '1'))
 		return (1);
 	return (0);
 }

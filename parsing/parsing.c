@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/21 14:54:25 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/31 19:58:23 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ void	parsing(char *name, t_info *glo)
 	while (*name == ' ' || *name == '\t')
 		name++;
 	is_end_cub(name);
-	is_map_connected(reading_file(glo, name));
-	glo->file = ft_split(reading_file(glo, name), '\n');
+	char *line = reading_file(glo, name);
+	is_map_connected(line);
+	
+	glo->file = ft_split(line, '\n');
+	free(line);
 	get_map_info(glo);
 }

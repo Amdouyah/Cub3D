@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   checking_tx.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:10:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/21 14:54:14 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:20:10 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3dbonus.h"
 
 void	is_path_valid(t_info *glo)
 {
@@ -34,8 +34,8 @@ void	checking_paths(t_info *glo, int count_tx, int count_cl)
 		|| table_counter(glo->ea) != 2)
 	{
 		error("map error\n");
-		free_tx_tab(glo);
-		free_table(glo->file);
+		// free_tx_tab(glo);
+		// free_table(glo->file);
 		exit(1);
 	}
 	glo->no_path = glo->no[1];

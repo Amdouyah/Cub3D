@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycastbonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:46:58 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 16:42:45 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:49:29 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	check_wall(t_cub *cb, float x, float y)
 
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
 		return (1);
-	index_x = (int)floor(x / TILE_SIZE);
-	index_y = (int)floor(y / TILE_SIZE);
+	index_x = (int)floor(x / TILE_S);
+	index_y = (int)floor(y / TILE_S);
 	ym = 0;
 	while (cb->map[ym])
 		ym++;
@@ -44,9 +44,9 @@ void	get_horz(t_cub *cb)
 	cb->found_horz = 0;
 	cb->horzw_x = 0;
 	cb->horzw_y = 0;
-	y_hintercept = floor(cb->y_p / TILE_SIZE) * TILE_SIZE;
+	y_hintercept = floor(cb->y_p / TILE_S) * TILE_S;
 	if (sin(cb->rayangle) > 0)
-		y_hintercept += TILE_SIZE;
+		y_hintercept += TILE_S;
 	x_hintercept = (y_hintercept - cb->y_p) / tan(cb->rayangle);
 	if (cos(cb->rayangle) < 0)
 		x_hintercept = cb->x_p - fabs(x_hintercept);
@@ -96,9 +96,9 @@ void	get_vert(t_cub *cb)
 
 	cb->vertw_x = 0;
 	cb->vertw_y = 0;
-	x_vintercept = floor(cb->x_p / TILE_SIZE) * TILE_SIZE;
+	x_vintercept = floor(cb->x_p / TILE_S) * TILE_S;
 	if (cos(cb->rayangle) > 0)
-		x_vintercept += TILE_SIZE;
+		x_vintercept += TILE_S;
 	y_vintercept = (x_vintercept - cb->x_p) * tan(cb->rayangle);
 	if (sin(cb->rayangle) > 0)
 		y_vintercept = cb->y_p + fabs(y_vintercept);

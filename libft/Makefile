@@ -64,9 +64,9 @@ bonus: $(NAME) $(B_OBJS)
 			ar crs $(NAME) $(B_OBJS) $(OBJS)
 
 clean:
-		rm -f $(OBJS) $(B_OBJS)
+		@rm -f $(OBJS) $(B_OBJS)
 
 fclean: clean
-		rm -f $(NAME)
+		@rm -f $(NAME)
 
 re: fclean all

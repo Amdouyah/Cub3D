@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   raycast2bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 08:55:27 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/30 16:42:43 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:51:03 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3dbonus.h"
 
-void	draw_squar(mlx_image_t *img, int y, int x, unsigned int color)
+void	draw_sq(mlx_image_t *img, int y, int x, unsigned int color)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	while (++i < TILE_SIZE)
+	while (++i < TILE_S)
 	{
 		j = -1;
-		while (++j < TILE_SIZE)
+		while (++j < TILE_S)
 			mlx_put_pixel(img, j + x, i + y, color);
 	}
 }
@@ -46,16 +46,16 @@ int	get_position(float ver, float width)
 {
 	int	pos;
 
-	pos = ((ver / TILE_SIZE) - (int)ver / TILE_SIZE) * width;
+	pos = ((ver / TILE_S) - (int)ver / TILE_S) * width;
 	return (pos);
 }
 
 void	get_hsteps(t_cub *cb)
 {
-	cb->y_hstep = TILE_SIZE;
+	cb->y_hstep = TILE_S;
 	if (sin(cb->rayangle) < 0)
 		cb->y_hstep *= -1;
-	cb->x_hstep = TILE_SIZE / tan(cb->rayangle);
+	cb->x_hstep = TILE_S / tan(cb->rayangle);
 	if ((cos(cb->rayangle) < 0 && cb->x_hstep > 0) || (cos(cb->rayangle) > 0
 			&& cb->x_hstep < 0))
 		cb->x_hstep *= -1;
@@ -63,10 +63,10 @@ void	get_hsteps(t_cub *cb)
 
 void	get_vstep(t_cub *cb)
 {
-	cb->x_vstep = TILE_SIZE;
+	cb->x_vstep = TILE_S;
 	if (cos(cb->rayangle) < 0)
 		cb->x_vstep *= -1;
-	cb->y_vstep = TILE_SIZE * tan(cb->rayangle);
+	cb->y_vstep = TILE_S * tan(cb->rayangle);
 	if ((sin(cb->rayangle) > 0 && cb->y_vstep < 0) || (sin(cb->rayangle) < 0
 			&& cb->y_vstep > 0))
 		cb->y_vstep *= -1;
