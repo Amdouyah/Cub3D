@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/31 20:27:11 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/01 17:02:44 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,5 @@ int	main(int ac, char **av)
 	minimap(cb);
 	mlx_image_to_window(cb->mlx, cb->img, 0, 0);
 	mlx_loop_hook(cb->mlx, ft_hook, cb);
-	system("leaks cub3D");
 	mlx_loop(cb->mlx);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks1bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:18:54 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/31 16:48:19 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/11/01 17:07:33 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,26 @@ void	ft_mv_right(t_cub *cb)
 
 int	wall_check(t_cub *cb)
 {
-	if ((cb->map[(int)(cb->y_p) / TILE_S][(int)cb->xtmp / TILE_S] != '1'
-			&& cb->map[(int)(cb->ytmp) / TILE_S][(int)cb->x_p
-			/ TILE_S] != '1' && cb->map[(int)cb->ytmp
-			/ TILE_S][(int)(cb->xtmp) / TILE_S] != '1'))
-		return (1);
-	return (0);
+	float	i;
+	float	j;
+
+	j = cb->xtmp / (TILE_S);
+	i = cb->ytmp / (TILE_S);
+	if (cb->map[(int)i][(int)j] == '1')
+		return (0);
+	i = (cb->ytmp + 2) / TILE_S;
+	if (cb->map[(int)i][(int)j] == '1')
+		return (0);
+	i = (cb->ytmp - 2) / TILE_S;
+	if (cb->map[(int)i][(int)j] == '1')
+		return (0);
+	j = (cb->xtmp + 2) / TILE_S;
+	if (cb->map[(int)i][(int)j] == '1')
+		return (0);
+	j = (cb->xtmp - 2) / TILE_S;
+	if (cb->map[(int)i][(int)j] == '1')
+		return (0);
+	return (1);
 }
 
 void	init_view(t_cub *cb, char c)
