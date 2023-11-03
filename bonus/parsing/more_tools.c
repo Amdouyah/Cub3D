@@ -6,11 +6,12 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:02:38 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/31 20:33:40 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:50:11 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3dbonus.h"
+
 
 int	table_counter(char **table)
 {

@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:10:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/31 20:33:35 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:50:05 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ void	is_path_valid(t_info *glo)
 		|| open(glo->we_path, O_RDONLY) == -1
 		|| open(glo->ea_path, O_RDONLY) == -1)
 	{
-		free_tx_tab(glo);
-		free_table(glo->file);
-		error("texture file not found\n");
 		exit(1);
 	}
 }
@@ -34,8 +31,6 @@ void	checking_paths(t_info *glo, int count_tx, int count_cl)
 		|| table_counter(glo->ea) != 2)
 	{
 		error("map error\n");
-		free_tx_tab(glo);
-		free_table(glo->file);
 		exit(1);
 	}
 	glo->no_path = glo->no[1];

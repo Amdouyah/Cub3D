@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:14:06 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 20:35:44 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:54:37 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ int	isserroundind(char **map, int len)
 		{
 			if (map[i][j] == '0')
 			{
-				// if (i == table_counter(map) - 1)
-				// {
-				// 	return (1);
-				// }
 				if (i == 0 || i == len - 1 || j == 0
 					|| j == (int)ft_strlen(map[i]) - 1)
 					return (1);

@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3dbonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/11/03 20:16:04 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:51:12 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3DBONUS_H
 # define CUB3DBONUS_H
 
-// # include "../../MLX42/include/MLX42/MLX42.h"
-# include "/Users/bgannoun/MLX42/include/MLX42/MLX42.h"
+# include "../../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -23,7 +22,7 @@
 # define FOV 60
 # define HEIGHT 740
 # define WIDTH 1150
-# define SPEED 1
+# define SPEED 2
 # define TILE_S 20
 
 # include "../get_next_line/get_next_line.h"

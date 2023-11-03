@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 20:22:26 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:50:20 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3dbonus.h"
+
 
 void	fill_line_tx(t_info *glo, int *count_tx, int i, char *tx)
 {
@@ -51,7 +52,7 @@ void	get_map_info_s(t_info *glo, int *count_tx, int *count_cl, int i)
 		fill_line_cl(glo, count_cl, i, "c");
 	else
 	{
-		error("map error\n");
+		error("map errorrrrr\n");
 		exit(1);
 	}
 }
@@ -65,13 +66,13 @@ void	get_map_info(t_info *glo)
 
 	count_tx = 0;
 	count_cl = 0;
+	i = 0;
 	ptr = find_ones(glo->file, get_rows(glo->file), "111");
 	if (!ptr)
 	{
-		error("map error\n");
+		error("map errorrrrr\n");
 		exit(1);
 	}
-	i = 0;
 	while (glo->file[i]
 		&& glo->file[i] != *ptr)
 	{
@@ -89,6 +90,7 @@ void	parsing(char *name, t_info *glo)
 	is_end_cub(name);
 	char *line = reading_file(glo, name);
 	is_map_connected(line);
+	
 	glo->file = ft_split(line, '\n');
 	free(line);
 	get_map_info(glo);

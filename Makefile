@@ -43,7 +43,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJ)
 	cd libft && make
-	$(CC)  $(CFLAGS)  $(FLAG)  /Users/bgannoun/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/bgannoun/goinfre/homebrew/opt/glfw/lib" $(SRC) -o $(NAME) ./libft/libft.a
+	$(CC)  $(CFLAGS)  $(FLAG)  /Users/amdouyah/Desktop/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/amdouyah/.brew/opt/glfw/lib/" $(SRC) -o $(NAME) ./libft/libft.a
 
 clean :
 	@rm -rf $(OBJ) $(OBJBONUS)
@@ -57,4 +57,4 @@ re : fclean all
 
 bonus : $(OBJBONUS)
 	cd libft && make
-	$(CC)  $(CFLAGS) -fsanitize=address -g  $(FLAG) /Users/bgannoun/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/bgannoun/goinfre/homebrew/opt/glfw/lib" $(SRCBONUS) -o $(NAMEBONUS) ./libft/libft.a
+	$(CC)  $(CFLAGS)  $(FLAG) /Users/amdouyah/Desktop/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/amdouyah/.brew/opt/glfw/lib/" $(SRCBONUS) -o $(NAMEBONUS) ./libft/libft.a

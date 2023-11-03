@@ -6,11 +6,13 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:07:52 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/31 20:33:42 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:50:17 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3dbonus.h"
+
+
 
 char	*reading_file(t_info *glo, char *name)
 {

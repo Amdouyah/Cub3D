@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sec_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:59:39 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/31 17:02:38 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/11/03 21:10:00 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	draw_rays(int r, t_cub *cb, t_floats *vars)
 				vars->y_txt));
 }
 
-void	cast_ray(t_cub *cb, int r)
+void	cast_ray(t_cub *cb, int __unused r)
 {
 	t_floats	vars;
 
