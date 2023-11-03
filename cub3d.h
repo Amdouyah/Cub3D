@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/11/01 17:06:39 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 11:44:07 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define FOV 60
 # define HEIGHT 740
 # define WIDTH 1150
-# define SPEED 1
+# define SPEED 2
 # define TILE_SIZE 20
 
 # include "./get_next_line/get_next_line.h"
