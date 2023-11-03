@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:14:06 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 20:54:37 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:11:07 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	checking_map(char **map)
 		while (map[i][j])
 		{
 			if (map[i][j] == '0' && !map[i +1])
-					return (1);
+				return (1);
 			if (checking_map_s(map, i, j, &count_p))
 				return (1);
 			j++;

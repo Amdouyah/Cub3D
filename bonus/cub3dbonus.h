@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/11/03 20:51:12 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:06:30 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct s_colors
 typedef struct s_info
 {
 	t_map			map;
+	char			*line;
+	char			*all;
 	char			**file;
 	int				fd;
 	char			**no;

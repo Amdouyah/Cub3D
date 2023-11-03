@@ -6,12 +6,11 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 20:50:20 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:43:52 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3dbonus.h"
-
 
 void	fill_line_tx(t_info *glo, int *count_tx, int i, char *tx)
 {
@@ -85,12 +84,14 @@ void	get_map_info(t_info *glo)
 
 void	parsing(char *name, t_info *glo)
 {
+	char	*line;
+
+	line = NULL;
 	while (*name == ' ' || *name == '\t')
 		name++;
 	is_end_cub(name);
-	char *line = reading_file(glo, name);
+	line = reading_file(glo, name);
 	is_map_connected(line);
-	
 	glo->file = ft_split(line, '\n');
 	free(line);
 	get_map_info(glo);

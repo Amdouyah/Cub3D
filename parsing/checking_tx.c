@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking_tx.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:10:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 20:24:28 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:46:11 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,21 @@ void	is_path_valid(t_info *glo)
 
 void	checking_paths(t_info *glo, int count_tx, int count_cl)
 {
-	if (count_tx != 4 || count_cl != 2 || ft_strlen(glo->no[0]) != 2
-		|| ft_strlen(glo->so[0]) != 2 || ft_strlen(glo->we[0]) != 2
-		|| ft_strlen(glo->ea[0]) != 2 || table_counter(glo->no) != 2
-		|| table_counter(glo->so) != 2 || table_counter(glo->we) != 2
-		|| table_counter(glo->ea) != 2)
+	if (glo->so && glo->no && glo->we && glo->ea)
 	{
-		error("map error\n");
+		if (count_tx != 4 || count_cl != 2 || ft_strlen(glo->no[0]) != 2
+			|| ft_strlen(glo->so[0]) != 2 || ft_strlen(glo->we[0]) != 2
+			|| ft_strlen(glo->ea[0]) != 2 || table_counter(glo->so) != 2
+			|| table_counter(glo->we) != 2
+			|| table_counter(glo->ea) != 2)
+		{
+			error("tx error\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		error("tx error\n");
 		exit(1);
 	}
 	glo->no_path = glo->no[1];

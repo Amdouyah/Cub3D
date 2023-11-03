@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/31 23:55:13 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:45:20 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ void	init_vars(t_cub *cb, t_info *glo)
 	cb->so = mlx_load_png(cb->glo->so_path);
 	cb->we = mlx_load_png(cb->glo->we_path);
 	cb->ea = mlx_load_png(cb->glo->ea_path);
+	if (!cb->no || !cb->so || !cb->we || !cb->ea)
+	{
+		printf("tx error\n");
+		exit(1);
+	}
 	cb->rayangle = cb->view_p - rad(FOV / 2);
 	cb->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 1);
 	cb->img = mlx_new_image(cb->mlx, WIDTH, HEIGHT);

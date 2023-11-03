@@ -6,43 +6,39 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:07:52 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 20:50:17 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:43:48 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3dbonus.h"
 
-
-
 char	*reading_file(t_info *glo, char *name)
 {
-	char	*line;
-	char	*all;
 	int		i;
 
-	line = NULL;
-	all = NULL;
+	glo->line = NULL;
+	glo->all = NULL;
 	reding_file_s(glo, name);
 	i = 0;
 	while (1)
 	{
-		line = get_next_line(glo->fd);
-		if (i == 0 && !line)
+		glo->line = get_next_line(glo->fd);
+		if (i == 0 && !glo->line)
 		{
 			error("cub file is empty\n");
-			free(line);
+			free(glo->line);
 			exit(1);
 		}
-		if (!line)
+		if (!glo->line)
 			break ;
-		all = join(all, line);
-		if (line)
-			free(line);
+		glo->all = join(glo->all, glo->line);
+		if (glo->line)
+			free(glo->line);
 		i++;
 	}
 	close (glo->fd);
-	free(line);
-	return (all);
+	free(glo->line);
+	return (glo->all);
 }
 
 int	checker(char *str)

@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/11/03 20:41:11 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:14:02 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_info
 {
 	t_map			map;
 	char			**file;
+	char			*all;
+	char			*line;
 	int				fd;
 	char			**no;
 	char			**so;

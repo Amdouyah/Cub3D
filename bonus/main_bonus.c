@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:00:02 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/11/01 17:02:44 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:53:41 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,10 @@ int	main(int ac, char **av)
 	mlx_image_to_window(cb->mlx, cb->img, 0, 0);
 	mlx_loop_hook(cb->mlx, ft_hook, cb);
 	mlx_loop(cb->mlx);
+	mlx_delete_texture(cb->no);
+	mlx_delete_texture(cb->ea);
+	mlx_delete_texture(cb->we);
+	mlx_delete_texture(cb->so);
+	mlx_terminate(cb->mlx);
+	free(cb);
 }
