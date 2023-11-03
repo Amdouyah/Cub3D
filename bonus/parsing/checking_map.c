@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:14:06 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/31 20:33:30 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:36:23 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	checking_map_s(char **map, int i, int j, int *count_p)
 	if (map[i][j] == '0')
 	{
 		if (j > (int)ft_strlen(map[i - 1]) - 1
-			|| j > (int)ft_strlen(map[i + 1]) - 1)
+			|| j > (int)ft_strlen(map[i + 1]) - 1
+			|| i + 1 == table_counter(map) - 1)
 			return (1);
 	}
 	if (map[i][j] == 'N' || map[i][j] == 'S'
@@ -114,6 +115,8 @@ int	checking_map(char **map)
 		j = 0;
 		while (map[i][j])
 		{
+			if (map[i][j] == '0' && !map[i + 1])
+				return (1);
 			if (checking_map_s(map, i, j, &count_p))
 				return (1);
 			j++;

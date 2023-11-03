@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking_cl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:12:10 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/31 20:17:42 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:36:25 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,6 @@ void	checking_colors(t_info *glo)
 		|| counting_cama(glo->map.flor) || fill_color(glo))
 	{
 		error("map error\n");
-
-		free_tx_tab(glo);
-		free_table(glo->file);
 		exit(1);
 	}
 	is_map_valid(glo);

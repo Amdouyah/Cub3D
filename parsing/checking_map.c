@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:14:06 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/21 14:54:12 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:35:44 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	is_map_valid(t_info *glo)
 	if (!glo->map.map || checking_map(glo->map.map))
 	{
 		error("map error\n");
-		free_tx_tab(glo);
-		free_table(glo->file);
 		exit(1);
 	}
 }
@@ -38,6 +36,10 @@ int	isserroundind(char **map, int len)
 		{
 			if (map[i][j] == '0')
 			{
+				// if (i == table_counter(map) - 1)
+				// {
+				// 	return (1);
+				// }
 				if (i == 0 || i == len - 1 || j == 0
 					|| j == (int)ft_strlen(map[i]) - 1)
 					return (1);
@@ -69,8 +71,6 @@ void	is_map_connected(char *map)
 		{
 			if (two_lines[i++] != '\n')
 			{
-				error("invalid map\n");
-				free(map);
 				exit(1);
 			}
 		}
@@ -114,6 +114,8 @@ int	checking_map(char **map)
 		j = 0;
 		while (map[i][j])
 		{
+			if (map[i][j] == '0' && !map[i +1])
+					return (1);
 			if (checking_map_s(map, i, j, &count_p))
 				return (1);
 			j++;

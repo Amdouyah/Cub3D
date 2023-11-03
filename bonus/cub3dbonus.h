@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cub3dbonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/10/31 18:29:00 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:16:04 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3DBONUS_H
 # define CUB3DBONUS_H
 
-# include "../../MLX42/include/MLX42/MLX42.h"
-// # include "/Users/bgannoun/MLX42/include/MLX42/MLX42.h"
+// # include "../../MLX42/include/MLX42/MLX42.h"
+# include "/Users/bgannoun/MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>

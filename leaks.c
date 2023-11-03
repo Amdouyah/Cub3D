@@ -5,7 +5,7 @@ int main()
 {
 	while(1)
 	{
-	system("leaks cub3DBonus");
+	system("leaks cub3D");
 	sleep(1);
 	}
 }

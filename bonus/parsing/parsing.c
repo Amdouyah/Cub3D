@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/10/31 20:33:46 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:22:26 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,29 @@ void	get_map_info_s(t_info *glo, int *count_tx, int *count_cl, int i)
 		fill_line_cl(glo, count_cl, i, "c");
 	else
 	{
-		error("map errorrrrr\n");
-		free_tx_tab(glo);
-		free_table(glo->file);
+		error("map error\n");
 		exit(1);
 	}
 }
 
 void	get_map_info(t_info *glo)
 {
-	int	i;
-	int	count_tx;
-	int	count_cl;
+	int		i;
+	int		count_tx;
+	int		count_cl;
+	char	**ptr;
 
 	count_tx = 0;
 	count_cl = 0;
+	ptr = find_ones(glo->file, get_rows(glo->file), "111");
+	if (!ptr)
+	{
+		error("map error\n");
+		exit(1);
+	}
 	i = 0;
 	while (glo->file[i]
-		&& glo->file[i] != *find_ones(glo->file, get_rows(glo->file), "111"))
+		&& glo->file[i] != *ptr)
 	{
 		get_map_info_s(glo, &count_tx, &count_cl, i);
 		i++;
@@ -84,7 +89,6 @@ void	parsing(char *name, t_info *glo)
 	is_end_cub(name);
 	char *line = reading_file(glo, name);
 	is_map_connected(line);
-	
 	glo->file = ft_split(line, '\n');
 	free(line);
 	get_map_info(glo);
