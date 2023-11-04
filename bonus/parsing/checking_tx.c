@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:10:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 22:51:37 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/03 22:55:12 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	checking_paths(t_info *glo, int count_tx, int count_cl)
 			|| table_counter(glo->ea) != 2)
 		{
 			error("tx error\n");
-			// free_tx_tab(glo);
-			// system("leaks cub3DBonus");
 			exit(1);
 		}
 	}
