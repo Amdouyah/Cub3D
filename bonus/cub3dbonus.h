@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:58:04 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/11/03 22:06:30 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/04 11:34:50 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ typedef struct s_info
 	char			**so;
 	char			**we;
 	char			**ea;
+	int				nn;
+	int				ee;
+	int				ww;
+	int				ss;
 	char			*no_path;
 	char			*so_path;
 	char			*we_path;
@@ -118,6 +122,9 @@ typedef struct s_cub
 
 }					t_cub;
 
+void				check_leaks_tx(int count);
+void				fill_line_tx_con(t_info *glo, char *tx, int i);
+void				fill_line_tx(t_info *glo, int *count_tx, int i, char *tx);
 void				ft_mouse(t_cub *cb);
 void				ft_right(t_cub *cb);
 void				ft_down(t_cub *cb);

@@ -3,55 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/04 11:15:33 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/11/04 11:30:41 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-void	check_leaks_tx(int count)
-{
-	if (count < 1)
-		return ;
-	else
-	{
-		error("tx error\n");
-		exit(1);
-	}
-}
-
-void	fill_line_tx(t_info *glo, int *count_tx, int i, char *tx)
-{
-	filling(glo->file[i]);
-	if (!ft_strcmp(tx, "n"))
-	{
-		check_leaks_tx(glo->nn);
-		glo->no = ft_split(glo->file[i], ' ');
-		glo->nn++;
-	}
-	else if (!ft_strcmp(tx, "s"))
-	{
-		check_leaks_tx(glo->ss);
-		glo->so = ft_split(glo->file[i], ' ');
-		glo->ss++;
-	}
-	else if (!ft_strcmp(tx, "w"))
-	{
-		check_leaks_tx(glo->ww);
-		glo->we = ft_split(glo->file[i], ' ');
-		glo->ww++;
-	}
-	else if (!ft_strcmp(tx, "e"))
-	{
-		check_leaks_tx(glo->ee);
-		glo->ea = ft_split(glo->file[i], ' ');
-		glo->ee++;
-	}
-	(*count_tx)++;
-}
 
 void	fill_line_cl(t_info *glo, int *count_cl, int i, char *cl)
 {
@@ -83,6 +42,14 @@ void	get_map_info_s(t_info *glo, int *count_tx, int *count_cl, int i)
 	}
 }
 
+void	init_counters(t_info *glo)
+{
+	glo->nn = 0;
+	glo->ss = 0;
+	glo->ww = 0;
+	glo->ee = 0;
+}
+
 void	get_map_info(t_info *glo)
 {
 	int		i;
@@ -92,10 +59,7 @@ void	get_map_info(t_info *glo)
 
 	count_tx = 0;
 	count_cl = 0;
-	glo->nn = 0;
-	glo->ss = 0;
-	glo->ww = 0;
-	glo->ee = 0;
+	init_counters(glo);
 	i = 0;
 	ptr = find_ones(glo->file, get_rows(glo->file), "111");
 	if (!ptr)

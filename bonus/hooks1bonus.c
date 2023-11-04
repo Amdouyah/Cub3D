@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:18:54 by amdouyah          #+#    #+#             */
-/*   Updated: 2023/11/01 17:07:33 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/04 11:42:38 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_mv_left(t_cub *cb)
 {
-	cb->view_p -= 0.03;
+	cb->view_p -= 0.05;
 	if (cb->view_p >= 0)
 		cb->view_p -= 2 * M_PI;
 	else if (cb->view_p < 2 * M_PI)
@@ -23,7 +23,7 @@ void	ft_mv_left(t_cub *cb)
 
 void	ft_mv_right(t_cub *cb)
 {
-	cb->view_p += 0.03;
+	cb->view_p += 0.05;
 	if (cb->view_p >= 0)
 		cb->view_p -= 2 * M_PI;
 	else if (cb->view_p < 2 * M_PI)

@@ -6,7 +6,7 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:07:52 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 22:43:48 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/04 11:37:06 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,50 @@ int	checker(char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	check_leaks_tx(int count)
+{
+	if (count < 1)
+		return ;
+	else
+	{
+		error("tx error\n");
+		exit(1);
+	}
+}
+
+void	fill_line_tx_con(t_info *glo, char *tx, int i)
+{
+	if (!ft_strcmp(tx, "n"))
+	{
+		check_leaks_tx(glo->nn);
+		glo->no = ft_split(glo->file[i], ' ');
+		glo->nn++;
+	}
+	else if (!ft_strcmp(tx, "s"))
+	{
+		check_leaks_tx(glo->ss);
+		glo->so = ft_split(glo->file[i], ' ');
+		glo->ss++;
+	}
+	else if (!ft_strcmp(tx, "w"))
+	{
+		check_leaks_tx(glo->ww);
+		glo->we = ft_split(glo->file[i], ' ');
+		glo->ww++;
+	}
+	else if (!ft_strcmp(tx, "e"))
+	{
+		check_leaks_tx(glo->ee);
+		glo->ea = ft_split(glo->file[i], ' ');
+		glo->ee++;
+	}
+}
+
+void	fill_line_tx(t_info *glo, int *count_tx, int i, char *tx)
+{
+	filling(glo->file[i]);
+	fill_line_tx_con(glo, tx, i);
+	(*count_tx)++;
 }

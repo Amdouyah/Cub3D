@@ -6,25 +6,11 @@
 /*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 22:43:52 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/04 11:37:08 by amdouyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3dbonus.h"
-
-void	fill_line_tx(t_info *glo, int *count_tx, int i, char *tx)
-{
-	filling(glo->file[i]);
-	if (!ft_strcmp(tx, "n"))
-		glo->no = ft_split(glo->file[i], ' ');
-	else if (!ft_strcmp(tx, "s"))
-		glo->so = ft_split(glo->file[i], ' ');
-	else if (!ft_strcmp(tx, "w"))
-		glo->we = ft_split(glo->file[i], ' ');
-	else if (!ft_strcmp(tx, "e"))
-		glo->ea = ft_split(glo->file[i], ' ');
-	(*count_tx)++;
-}
 
 void	fill_line_cl(t_info *glo, int *count_cl, int i, char *cl)
 {
@@ -56,6 +42,14 @@ void	get_map_info_s(t_info *glo, int *count_tx, int *count_cl, int i)
 	}
 }
 
+void	init_counters(t_info *glo)
+{
+	glo->nn = 0;
+	glo->ss = 0;
+	glo->ww = 0;
+	glo->ee = 0;
+}
+
 void	get_map_info(t_info *glo)
 {
 	int		i;
@@ -65,6 +59,7 @@ void	get_map_info(t_info *glo)
 
 	count_tx = 0;
 	count_cl = 0;
+	init_counters(glo);
 	i = 0;
 	ptr = find_ones(glo->file, get_rows(glo->file), "111");
 	if (!ptr)
