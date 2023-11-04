@@ -3,26 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amdouyah <amdouyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:06:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/11/03 22:37:31 by amdouyah         ###   ########.fr       */
+/*   Updated: 2023/11/04 11:15:33 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+void	check_leaks_tx(int count)
+{
+	if (count < 1)
+		return ;
+	else
+	{
+		error("tx error\n");
+		exit(1);
+	}
+}
+
 void	fill_line_tx(t_info *glo, int *count_tx, int i, char *tx)
 {
 	filling(glo->file[i]);
 	if (!ft_strcmp(tx, "n"))
+	{
+		check_leaks_tx(glo->nn);
 		glo->no = ft_split(glo->file[i], ' ');
+		glo->nn++;
+	}
 	else if (!ft_strcmp(tx, "s"))
+	{
+		check_leaks_tx(glo->ss);
 		glo->so = ft_split(glo->file[i], ' ');
+		glo->ss++;
+	}
 	else if (!ft_strcmp(tx, "w"))
+	{
+		check_leaks_tx(glo->ww);
 		glo->we = ft_split(glo->file[i], ' ');
+		glo->ww++;
+	}
 	else if (!ft_strcmp(tx, "e"))
+	{
+		check_leaks_tx(glo->ee);
 		glo->ea = ft_split(glo->file[i], ' ');
+		glo->ee++;
+	}
 	(*count_tx)++;
 }
 
@@ -65,6 +92,10 @@ void	get_map_info(t_info *glo)
 
 	count_tx = 0;
 	count_cl = 0;
+	glo->nn = 0;
+	glo->ss = 0;
+	glo->ww = 0;
+	glo->ee = 0;
 	i = 0;
 	ptr = find_ones(glo->file, get_rows(glo->file), "111");
 	if (!ptr)
